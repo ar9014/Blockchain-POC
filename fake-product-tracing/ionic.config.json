@@ -1,0 +1,7 @@
+{
+  "name": "product-tracing",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
