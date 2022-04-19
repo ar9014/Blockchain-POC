@@ -52,7 +52,7 @@
 
   <ion-card class="btn-action">
     <ion-card-content>
-      <ion-card-title>Order/ Product History</ion-card-title>
+      <ion-card-title (click)="viewHistoryForm()">Order/ Product History</ion-card-title>
     </ion-card-content>
   </ion-card>
 
@@ -64,4 +64,8 @@
 
 <ion-content *ngIf="viewProductDisplay">
   <app-view-product (viewProductObj)="ViewProductEvent($event)"></app-view-product>
+</ion-content>
+
+<ion-content *ngIf="viewHistoryFormDisplay">
+  <app-view-order-history (viewHistoryObj)="ViewHistoryEvent($event)"></app-view-order-history>
 </ion-content>

@@ -10,6 +10,7 @@ export class ActionPage{
   actionPageDisaply = true;
   addProductFormDisplay = false;
   viewProductDisplay = false;
+  viewHistoryFormDisplay = false;
 
   constructor() {}
 
@@ -35,6 +36,17 @@ export class ActionPage{
     }
   }
 
+  viewHistoryForm(){
+    if(this.viewHistoryFormDisplay){
+      this.viewHistoryFormDisplay= false;
+      this.actionPageDisaply = true;
+    }
+    else{
+      this.viewHistoryFormDisplay = true;
+      this.actionPageDisaply = false;
+    }
+  }
+
   AddProductEvent(event){
     if(event === 'true'){
       this.actionPageDisaply = true;
@@ -46,6 +58,13 @@ export class ActionPage{
     if(event === 'true'){
       this.actionPageDisaply = true;
       this.viewProductDisplay = false;
+    }
+  }
+
+  ViewHistoryEvent(event){
+    if(event === 'true'){
+      this.actionPageDisaply = true;
+      this.viewHistoryFormDisplay = false;
     }
   }
 }

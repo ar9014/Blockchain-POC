@@ -1,3 +1,45 @@
-<p>
-  view-order-history works!
-</p>
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>
+      View History
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="ion-padding">
+    <form [formGroup]="viewHistoryForm" (ngSubmit)="viewHistory()">
+      <ion-list>
+        <ion-item class="ion-margin-bottom">
+          <ion-label position="floating">Product Number</ion-label>
+          <ion-input type="text" formControlName="productNumber"></ion-input>
+        </ion-item>
+        <small *ngIf="viewHistoryForm.get('productNumber').invalid && (viewHistoryForm.get('productNumber').dirty ||viewHistoryForm.get('productNumber').touched )">
+          <small *ngIf="(viewHistoryForm.get('productNumber')).errors?.required">Product Number is required</small>
+          <small *ngIf="(viewHistoryForm.get('productNumber')).errors?.minlength">Please enter more than 4 character</small>
+        </small>
+        <ion-item class="ion-float-right" lines="none">
+          <ion-button color="primary" [disabled]="!viewHistoryForm.valid" type="submit">Show History</ion-button>
+          <ion-button color="primary" (click)="onReset()">Reset Form</ion-button>
+          <ion-button color="primary" (click)="goBack()">Back</ion-button>
+        </ion-item>
+      </ion-list>
+    </form>
+  </div>
+
+    <ion-list>
+      <ion-list-header> Complete History </ion-list-header>
+
+      <ion-item *ngFor="let step of steps">
+        <ion-avatar slot="start">
+          <img src="https://www.creativefabrica.com/wp-content/uploads/2021/04/22/Blockchain-icon-Graphics-11214769-1-1-580x386.jpg" />
+        </ion-avatar>
+        <ion-label>
+          <h2>{{step.action}}</h2>
+          <h3>{{step.by}}</h3>
+          <p>{{step.date}} <span>{{step.location}}</span></p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+</ion-content>
