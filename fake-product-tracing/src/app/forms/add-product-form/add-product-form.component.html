@@ -1,3 +1,47 @@
-<p>
-  add-product-form works!
-</p>
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>
+      Add Product
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="ion-padding">
+    <form [formGroup]="addProductForm" (ngSubmit)="addProduct()">
+      <ion-list>
+        <ion-item class="ion-margin-bottom">
+          <ion-label position="floating">Product Name</ion-label>
+          <ion-input type="text" formControlName="productName"></ion-input>
+        </ion-item>
+        <small *ngIf="addProductForm.get('productName').invalid && (addProductForm.get('productName').dirty ||addProductForm.get('productName').touched )">
+          <small *ngIf="(addProductForm.get('productName')).errors?.required">Product Name is required</small>
+          <small *ngIf="(addProductForm.get('productName')).errors?.minlength">Please enter more than 4 character</small>
+        </small>
+
+        <ion-item class="ion-margin-bottom">
+          <ion-label position="floating">Product Description</ion-label>
+          <ion-input type="text" formControlName="productName"></ion-input>
+        </ion-item>
+        <small *ngIf="addProductForm.get('productDesc').invalid && (addProductForm.get('productDesc').dirty ||addProductForm.get('productDesc').touched )">
+          <small *ngIf="(addProductForm.get('productDesc')).errors?.required">Product Description is required</small>
+          <small *ngIf="(addProductForm.get('productDesc')).errors?.minlength">Please enter more than 4 character</small>
+        </small>
+
+        <ion-item class="ion-margin-bottom">
+          <ion-label position="floating">Producer Name</ion-label>
+          <ion-input type="text" formControlName="producerName"></ion-input>
+        </ion-item>
+        <small *ngIf="addProductForm.get('producerName').invalid && (addProductForm.get('producerName').dirty ||addProductForm.get('producerName').touched )">
+          <small *ngIf="(addProductForm.get('producerName')).errors?.required">Producer Name is required</small>
+        </small>
+
+        <ion-item class="ion-float-right" lines="none">
+          <ion-button color="primary" [disabled]="!addProductForm.valid" type="submit">Save Details</ion-button>
+          <ion-button color="primary" (click)="onReset()">Reset Form</ion-button>
+          <ion-button color="primary" (click)="goBack()">Back</ion-button>
+        </ion-item>
+      </ion-list>
+    </form>
+  </div>
+</ion-content>
