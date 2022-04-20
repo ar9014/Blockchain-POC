@@ -11,6 +11,7 @@ export class ActionPage{
   addProductFormDisplay = false;
   viewProductDisplay = false;
   viewHistoryFormDisplay = false;
+  viewDeliverOrderFormDisplay= false;
 
   constructor() {}
 
@@ -47,6 +48,17 @@ export class ActionPage{
     }
   }
 
+  viewDeliverOrderForm(){
+    if(this.viewDeliverOrderFormDisplay){
+      this.viewDeliverOrderFormDisplay= false;
+      this.actionPageDisaply = true;
+    }
+    else{
+      this.viewDeliverOrderFormDisplay = true;
+      this.actionPageDisaply = false;
+    }
+  }
+
   AddProductEvent(event){
     if(event === 'true'){
       this.actionPageDisaply = true;
@@ -65,6 +77,13 @@ export class ActionPage{
     if(event === 'true'){
       this.actionPageDisaply = true;
       this.viewHistoryFormDisplay = false;
+    }
+  }
+
+  ViewDeliverOrderEvent(event){
+    if(event === 'true'){
+      this.actionPageDisaply = true;
+      this.viewDeliverOrderFormDisplay = false;
     }
   }
 }

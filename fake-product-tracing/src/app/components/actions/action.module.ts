@@ -8,6 +8,7 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
 import { AddProductFormComponent } from 'src/app/forms/add-product-form/add-product-form.component';
 import { ViewProductComponent } from 'src/app/forms/view-product/view-product.component';
 import { ViewOrderHistoryComponent } from 'src/app/forms/view-order-history/view-order-history.component';
+import { DeliverOrderFormComponent } from 'src/app/forms/deliver-order-form/deliver-order-form.component';
 
 
 @NgModule({
@@ -19,7 +20,7 @@ import { ViewOrderHistoryComponent } from 'src/app/forms/view-order-history/view
     ActionPageRoutingModule,
     ReactiveFormsModule
   ],
-  declarations: [ActionPage,AddProductFormComponent, ViewProductComponent, ViewOrderHistoryComponent],
+  declarations: [ActionPage,AddProductFormComponent, ViewProductComponent, ViewOrderHistoryComponent, DeliverOrderFormComponent],
   providers: [],
   exports: []
 })

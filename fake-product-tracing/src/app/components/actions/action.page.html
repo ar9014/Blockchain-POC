@@ -12,8 +12,8 @@
       <ion-title size="large">Actions</ion-title>
     </ion-toolbar>
   </ion-header>
-  
-  
+
+
   <ion-card class="btn-action">
     <ion-card-content>
       <ion-card-title (click)="addProductForm()">Add Product</ion-card-title>
@@ -46,7 +46,7 @@
 
   <ion-card class="btn-action">
     <ion-card-content>
-      <ion-card-title>Deliver Order</ion-card-title>
+      <ion-card-title (click)="viewDeliverOrderForm()">Deliver Order</ion-card-title>
     </ion-card-content>
   </ion-card>
 
@@ -68,4 +68,8 @@
 
 <ion-content *ngIf="viewHistoryFormDisplay">
   <app-view-order-history (viewHistoryObj)="ViewHistoryEvent($event)"></app-view-order-history>
+</ion-content>
+
+<ion-content *ngIf="viewDeliverOrderFormDisplay">
+  <app-deliver-order-form (viewHistoryObj)="ViewDeliverOrderEvent($event)"></app-deliver-order-form>
 </ion-content>
