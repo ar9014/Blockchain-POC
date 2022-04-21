@@ -28,7 +28,7 @@
 
   <ion-card class="btn-action">
     <ion-card-content>
-      <ion-card-title>Create Order</ion-card-title>
+      <ion-card-title (click)="createOrderFrom()">Create Order</ion-card-title>
     </ion-card-content>
   </ion-card>
 
@@ -72,4 +72,8 @@
 
 <ion-content *ngIf="viewDeliverOrderFormDisplay">
   <app-deliver-order-form (viewHistoryObj)="ViewDeliverOrderEvent($event)"></app-deliver-order-form>
+</ion-content>
+
+<ion-content *ngIf="createOrderDisplay">
+  <app-create-order-form (createOrderObj)="createOrderEvent($event)"></app-create-order-form>
 </ion-content>

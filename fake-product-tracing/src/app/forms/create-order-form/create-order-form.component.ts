@@ -9,6 +9,9 @@ export class CreateOrderFormComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {}
+  orders: string[] = ['Item 1', 'Item 2', 'Item 3', 'Item 4'];
+
+  ngOnInit() {
+  }
 
 }
