@@ -23,22 +23,23 @@ contract SupplyChain is
     }
 
     enum OrderItemState {
+        Produced,
         Ordered,
         CustomerDeliveryConfirmed,
         Delivered,
-        Produced,
         DistributorAdded
     }
 
     struct Order {
         uint orderId;
-        address orderedBy;   // consumer address
+        address orderedBy; // consumer metamask address 
         uint totalAmount;
-        uint cartIndex;
+        string location; // order placed location
     }
 
     struct OrderItem {
         uint orderItemId;
+        uint orderId;
         uint productId;
         uint price;
         OrderItemState itemState;
@@ -67,8 +68,20 @@ contract SupplyChain is
         OrderItemState currentState; 
     }
 
+    struct TempOrderDetail {
+        uint orderId;
+        uint price;
+        string productDesc;
+        string producerName;
+        int32 quantity;
+    }
+
+    // orderId -> Order
+    mapping(uint => TempOrderDetail) tempMapping;
+    uint[] tempIndexer;
+
     // Define a variable called productIndex
-    uint256 productIndex;
+    uint256 public productIndex;
 
     // productId -> product
      mapping(uint256 => Product) public productMapping;
@@ -84,6 +97,9 @@ contract SupplyChain is
     // activityId -> activity log
     mapping(uint => ActivityLog) public activityLog;
     uint logIndexer; // cart indexer
+
+    // totalamount
+    uint totalAmount;
    
     // Define events of Oreder item
     event ItemProduced(uint productId);
@@ -96,25 +112,25 @@ contract SupplyChain is
     event OrderPlaced(uint orderId);
     event OrderComplete(uint orderId);
 
-    constructor() public payable {
+    constructor() public {
         productIndex = 1;
     }
 
     // adds a product in the list.
-    function AddProducts(string calldata product_Name, string calldata product_Desc, string calldata producer_Name, string calldata _location, uint price) public onlyProducer
+    function addProducts(string calldata product_Name, string calldata product_Desc, string calldata producer_Name, string calldata _location, uint price) public onlyProducer
     {
-        productMapping[productIndex-1] = Product (productIndex, product_Name, product_Desc, producer_Name, price,
+        productMapping[productIndex] = Product (productIndex, product_Name, product_Desc, producer_Name, price,
         1, msg.sender, block.timestamp, false);
  
         productIndex = productIndex + 1;
 
-        emit ItemProduced(productIndex);   // Emit the appropriate event.
+        emit ItemProduced(productIndex);
 
-        AddLog(_location, OrderItemState.Produced);
+        addLog(_location, OrderItemState.Produced);
     }
 
     // create a log
-    function AddLog(string memory _location, OrderItemState _state) public {
+    function addLog(string memory _location, OrderItemState _state) public {
      
         activityLog[logIndexer].activityId = logIndexer + 1;
         activityLog[logIndexer].createdBy = msg.sender;
@@ -140,10 +156,10 @@ contract SupplyChain is
     //return products
     function getProuducts() public view returns (Product[] memory){
         
-        Product[] memory products = new Product[](productIndex);
+        Product[] memory products = new Product[](productIndex-1);
         
-        for (uint i = 0; i < productIndex-1; i++) {
-            Product storage product = productMapping[i];
+        for (uint i = 0; i < productIndex-1 ; i++) {
+            Product storage product = productMapping[i+1];
             products[i] = product;
         }
 
@@ -151,7 +167,7 @@ contract SupplyChain is
     }
 
     // fetches the product.
-    function ViewProduct(uint productId) public view returns(uint, uint256, string memory, string memory)
+    function viewProduct(uint productId) public view returns(uint, uint256, string memory, string memory)
     {
         return (productMapping[productId].productId,
                 productMapping[productId].price, 
@@ -160,9 +176,9 @@ contract SupplyChain is
     }
 
     // adds item in the cart.
-    function AddItemInCart(uint productId) public onlyConsumer
+    function addItemInCart(uint productId) public onlyConsumer
     {
-        uint index = cartIndexer.length + 1;
+        uint index = cartIndexer.length + 1;   // cartinde
 
         cartMapping[index].orderItemId = index;
         cartMapping[index].productId = productId;
@@ -173,38 +189,51 @@ contract SupplyChain is
     }
 
     // view cart item
-    function ViewCartItems(uint cartIndex) public view onlyConsumer returns(uint, uint, string memory, string memory, OrderItemState)
+    function viewCartItems(uint cartIndex) public onlyConsumer returns(uint, uint, string memory, string memory, uint, OrderItemState)
     {
         uint itemIndex = cartMapping[cartIndex].productId;
+
+        totalAmount = totalAmount + productMapping[itemIndex].price;
 
         return (cartMapping[cartIndex].productId,
                 productMapping[itemIndex].price,
                 productMapping[itemIndex].productName, 
                 productMapping[itemIndex].productDesc,
+                cartMapping[itemIndex].orderId,
                 cartMapping[itemIndex].itemState);
     }
 
     // creates order
-    function CreateOrder(address _consumerAddress, uint _totalAmount, uint _cartIndex, string memory _location) public onlyConsumer
+    function createOrder(string memory _location) public onlyConsumer
     {
-        uint _orderIndex = orderIndexer.length + 1;
+        uint orderIndex = orderIndexer.length + 1;
         
-        orderMapping[_orderIndex].orderId = _orderIndex;
-        orderMapping[_orderIndex].cartIndex = _cartIndex;
-        orderMapping[_orderIndex].orderedBy = _consumerAddress;
-        orderMapping[_orderIndex].totalAmount = _totalAmount;
+        orderMapping[orderIndex].orderId = orderIndex;
+        orderMapping[orderIndex].orderedBy = msg.sender;
+        orderMapping[orderIndex].totalAmount = totalAmount;  // total order amount;
+        orderMapping[orderIndex].location = _location;
 
-        orderIndexer.push(_orderIndex); 
+        orderIndexer.push(orderIndex); 
         
-        emit OrderPlaced(_orderIndex);     // emit event order placed.
-        AddLog(_location, OrderItemState.Ordered);        
+        linkCartItems(orderIndex); // link cart items with order.
+
+        emit OrderPlaced(orderIndex);     // emit event order placed.
+        addLog(_location, OrderItemState.Ordered);        
+    }
+
+    // add orderid to cartItems
+    function linkCartItems(uint _orderId) private
+    {
+        for (uint i = 1; i <= cartIndexer.length; i++) {
+            cartMapping[i].orderId = _orderId;
+        }
     }
 
     // add distributor 
-    function AddDistributorToOrderItem(uint _orderItem, address _distributor, string memory _location) public onlyProducer 
+    function addDistributorToOrderItem(uint _orderItem, address _distributor, string memory _location) public onlyProducer 
     {
         cartMapping[_orderItem].distributor = _distributor;
-        AddLog(_location, OrderItemState.DistributorAdded);
+        addLog(_location, OrderItemState.DistributorAdded);
     }
 
     // view distributor
@@ -220,7 +249,7 @@ contract SupplyChain is
             cartMapping[_orderItem].itemState = OrderItemState.Delivered;
 
         emit ItemDelivered(_orderItem);
-        AddLog(_location, OrderItemState.Delivered);
+        addLog(_location, OrderItemState.Delivered);
     }
 
     // item delivery customer confirmation
@@ -229,6 +258,29 @@ contract SupplyChain is
         cartMapping[_orderItem].itemState = OrderItemState.CustomerDeliveryConfirmed;
 
         emit ItemDeliveredCustomerConfirmation(_orderItem);
-        AddLog(_location, OrderItemState.CustomerDeliveryConfirmed);
+        addLog(_location, OrderItemState.CustomerDeliveryConfirmed);
     }
+
+    // fetches order details
+    function viewOrder() public view returns(TempOrderDetail[] memory)
+    {
+        TempOrderDetail[] memory tempItems = new TempOrderDetail[](cartIndexer.length);
+
+        for (uint i = 0; i < cartIndexer.length ; i++) {
+            
+            OrderItem storage item = cartMapping[i+1];
+            Product storage product = productMapping[i+1];
+
+            tempItems[i].orderId = item.orderId;
+            tempItems[i].productDesc = product.productName;
+            tempItems[i].producerName = product.productDesc;
+            tempItems[i].price = product.price;
+            tempItems[i].quantity = 1;
+
+        }
+
+        return tempItems;
+    }
+
 }
+

@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter  } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import Web3 from 'Web3';
 // import { EventEmitter } from 'events';
 
 @Component({
@@ -37,7 +38,6 @@ export class AddProductFormComponent implements OnInit {
 
   goBack(){
     this.addProductObj.emit('true');
-    // this.router.navigate(['./']);
   }
 
 }
