@@ -68,6 +68,18 @@ contract SupplyChain is
         OrderItemState currentState; 
     }
 
+    struct TempOrderDetail {
+        uint orderId;
+        uint price;
+        string productDesc;
+        string producerName;
+        int32 quantity;
+    }
+
+    // orderId -> Order
+    mapping(uint => TempOrderDetail) tempMapping;
+    uint[] tempIndexer;
+
     // Define a variable called productIndex
     uint256 public productIndex;
 
@@ -85,6 +97,9 @@ contract SupplyChain is
     // activityId -> activity log
     mapping(uint => ActivityLog) public activityLog;
     uint logIndexer; // cart indexer
+
+    // totalamount
+    uint totalAmount;
    
     // Define events of Oreder item
     event ItemProduced(uint productId);
@@ -97,7 +112,7 @@ contract SupplyChain is
     event OrderPlaced(uint orderId);
     event OrderComplete(uint orderId);
 
-    constructor() public payable {
+    constructor() public {
         productIndex = 1;
     }
 
@@ -163,7 +178,7 @@ contract SupplyChain is
     // adds item in the cart.
     function addItemInCart(uint productId) public onlyConsumer
     {
-        uint index = cartIndexer.length + 1;
+        uint index = cartIndexer.length + 1;   // cartinde
 
         cartMapping[index].orderItemId = index;
         cartMapping[index].productId = productId;
@@ -174,9 +189,11 @@ contract SupplyChain is
     }
 
     // view cart item
-    function viewCartItems(uint cartIndex) public view onlyConsumer returns(uint, uint, string memory, string memory, uint, OrderItemState)
+    function viewCartItems(uint cartIndex) public onlyConsumer returns(uint, uint, string memory, string memory, uint, OrderItemState)
     {
         uint itemIndex = cartMapping[cartIndex].productId;
+
+        totalAmount = totalAmount + productMapping[itemIndex].price;
 
         return (cartMapping[cartIndex].productId,
                 productMapping[itemIndex].price,
@@ -187,13 +204,13 @@ contract SupplyChain is
     }
 
     // creates order
-    function createOrder(uint _totalAmount, string memory _location) public onlyConsumer
+    function createOrder(string memory _location) public onlyConsumer
     {
         uint orderIndex = orderIndexer.length + 1;
         
         orderMapping[orderIndex].orderId = orderIndex;
         orderMapping[orderIndex].orderedBy = msg.sender;
-        orderMapping[orderIndex].totalAmount = _totalAmount;
+        orderMapping[orderIndex].totalAmount = totalAmount;  // total order amount;
         orderMapping[orderIndex].location = _location;
 
         orderIndexer.push(orderIndex); 
@@ -207,7 +224,7 @@ contract SupplyChain is
     // add orderid to cartItems
     function linkCartItems(uint _orderId) private
     {
-        for (uint i = 1; i < cartIndexer.length; i++) {
+        for (uint i = 1; i <= cartIndexer.length; i++) {
             cartMapping[i].orderId = _orderId;
         }
     }
@@ -244,4 +261,26 @@ contract SupplyChain is
         addLog(_location, OrderItemState.CustomerDeliveryConfirmed);
     }
 
+    // fetches order details
+    function viewOrder() public view returns(TempOrderDetail[] memory)
+    {
+        TempOrderDetail[] memory tempItems = new TempOrderDetail[](cartIndexer.length);
+
+        for (uint i = 0; i < cartIndexer.length ; i++) {
+            
+            OrderItem storage item = cartMapping[i+1];
+            Product storage product = productMapping[i+1];
+
+            tempItems[i].orderId = item.orderId;
+            tempItems[i].productDesc = product.productName;
+            tempItems[i].producerName = product.productDesc;
+            tempItems[i].price = product.price;
+            tempItems[i].quantity = 1;
+
+        }
+
+        return tempItems;
+    }
+
 }
+

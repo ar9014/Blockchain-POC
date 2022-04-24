@@ -11,10 +11,10 @@ declare const window: any;
 export class AppConfigurationService {
   window: any;
   supplyChainContract: any;
-  ownerAddress: string = '0xb8b2472997F06CfFF9e0A485b839a610a422cbe0';  // contract owner
-  producerAddress: string = '0x35078fcFbe02156dCCf96f1615AE45489658C6c8';  // ganache second account address
-  consumerAddress: string = '0xA8E164F56F36ae89A0C6728174fa2685F7088F8a';  // ganache third account address
-  distributorAddress: string = '0xF827B9401E0652EFC927e566425A09ebC31d76f0' // ganache fourth account address
+  ownerAddress: string = '0x60431CE1331Bc9199Ad4A464C415963696b6e775';  // contract owner
+  producerAddress: string = '0xaD3C10EaAd2F1b07fBa5Adb39FB8e87Fc32Fc4fC';  // ganache second account address
+  consumerAddress: string = '0xE3F58A16c5a6D0e93F81cB317AF72a26Bd71cfC7';  // ganache third account address
+  distributorAddress: string = '0x164ACB9b31d5d36F830ae07B7Bc0e36ad3BFEf23' // ganache fourth account address
 
 
   constructor(private abiService: AbiService) {
@@ -63,10 +63,29 @@ export class AppConfigurationService {
       result.then((instance) => { console.log(instance) });
   }
 
+  // addConsumer
+  public addConsumer() {
+    const result = this.supplyChainContract.methods.addConsumer(this.consumerAddress).send({
+      from: this.ownerAddress
+    })
+
+    result.then((instance) => { console.log(instance) });
+  }
+
+  // addDistributor
+  public addDistributor() {
+    const result = this.supplyChainContract.methods.addDistributor(this.distributorAddress).send({
+      from: this.ownerAddress
+    })
+
+    result.then((instance) =>{
+      console.log(instance)
+    });
+  }
   // to add product
   public addProduct() {
 
-    const result = this.supplyChainContract.methods.addProducts('kachori','kachori garam','Gits','Mumbai', 12).send({
+    const result = this.supplyChainContract.methods.addProducts('Samosa','Samosa garam','Gits','Nagpur', 18).send({
       from: this.producerAddress
     });
 
@@ -76,17 +95,100 @@ export class AppConfigurationService {
 
   }
 
-
-  // view product by index
-  public viewProduct(inedx: number) {
-    const result =  this.supplyChainContract.methods.viewProduct(1).call(
+  // get product by index
+  public viewProduct(index: number) {
+    const result =  this.supplyChainContract.methods.viewProduct(index).call(
      { from: this.ownerAddress }
     )
 
-    result.then(function(abc) {
-      alert(abc);
+    result.then((result) => {
+      console.log(result);
     });
-
   }
 
+  // to add products.
+  public addItemInCart(productId: number) {
+    const result = this.supplyChainContract.methods.addItemInCart(productId).send({
+      from: this.consumerAddress
+    });
+    result.then((result) => {
+        console.log(result);
+    });
+  }
+
+  // to view product.
+  public viewCartItems(index: number) {
+   const result =  this.supplyChainContract.methods.viewCartItems(index).call(
+    { from: this.consumerAddress }
+   )
+   result.then((result) => {  console.log(result); });
+  }
+
+  // create order
+  public createOrder(location: string) {
+
+    const result = this.supplyChainContract.methods.createOrder(location).send({
+      from: this.consumerAddress
+    });
+
+    result.then((result) => {
+        console.log(result);
+    });
+  }
+
+  // adds distributor to order item
+  public addDistributorToOrderItem(orderItem: number, distributor: string, location: string) {
+
+    const result = this.supplyChainContract.methods.addDistributorToOrderItem(orderItem, distributor, location).send({
+      from: this.producerAddress
+    });
+
+    result.then((result) => {
+        console.log(result);
+    });
+  }
+
+  // get logs
+  public getLogs(index: number) {
+    const result =  this.supplyChainContract.methods.getLogs().call();
+    result.then((result) => {  console.log(result); });
+  }
+
+   // get all the products
+  public getProuducts() {
+   const result =  this.supplyChainContract.methods.getProuducts().call();
+    result.then((result) => {
+     console.log(result);
+    });
+  }
+
+  // view order
+  public viewOrder() {
+    const result =  this.supplyChainContract.methods.viewOrder().call()
+    result.then((result) => {
+      console.log(result);
+    });
+  }
+
+  // customer order confirmation
+  public customerConfirmation(orderItem: number, location: string) {
+    const result = this.supplyChainContract.methods.customerConfirmation(orderItem, location).send({
+      from: this.consumerAddress
+    });
+
+    result.then((result) => {
+        console.log(result);
+    });
+  }
+
+  // distributor confirmation
+  public orderDelivered(orderItem: number, location: string) {
+    const result = this.supplyChainContract.methods.orderDelivered(orderItem, location).send({
+      from: this.distributorAddress
+    });
+
+    result.then((result) => {
+        console.log(result);
+    });
+  }
 }
