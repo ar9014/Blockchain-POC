@@ -15,7 +15,7 @@ export class AppComponent implements OnInit{
 
   public ngOnInit(): void {
     this.openMetaMask();  // this is used to set up connection with metamask.
-    this.blockchainConnectionService.supplyChain(); // opens metamask if account is connected to current provider
+    this.blockchainConnectionService.supplyChain(); // opens metamask if account is not connected to current provider
 
     // this.blockchainConnectionService.addFarmer();
 
