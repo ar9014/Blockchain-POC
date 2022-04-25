@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter  } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
+import { AppConfigurationService } from 'src/app/services/app.configuration.service';
 import { Step } from '../step.model';
 
 @Component({
@@ -43,7 +44,7 @@ export class ViewOrderHistoryComponent implements OnInit {
     )
   ]);
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(private fb: FormBuilder, private router: Router, private blockchainConnectionService: AppConfigurationService) {
     this.viewHistoryForm = this.fb.group({
       productNumber: [null, [Validators.required, Validators.minLength(5)]]
     });
@@ -60,7 +61,8 @@ export class ViewOrderHistoryComponent implements OnInit {
     this.placesSub = obsr.subscribe(places => {
       this.steps = places;
     });
-    alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.viewHistoryForm.value, null, 4));
+    let result = this.blockchainConnectionService.getLogs(this.viewHistoryForm.value);
+    console.log(result);
   }
 
   onReset() {
