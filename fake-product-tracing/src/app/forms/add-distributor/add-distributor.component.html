@@ -1,3 +1,34 @@
-<p>
-  add-distributor works!
-</p>
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>
+      Add Distributor
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="ion-padding">
+    <form [formGroup]="addDistributorForm" (ngSubmit)="addDistributor()">
+      <ion-list>
+        
+        <ion-item>
+          <ion-label>Please Select Accounts</ion-label>
+          <ion-select name="account" formControlName="account">
+            <ion-select-option value="producer">Accounts 1</ion-select-option>
+            <ion-select-option value="distributor">Accounts 2 </ion-select-option>
+            <ion-select-option value="consumer">Accounts 3</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item class="ion-margin-bottom">
+          <ion-label position="floating">Distributor Name</ion-label>
+          <ion-input type="text" formControlName="distributorName"></ion-input>
+        </ion-item>
+        <small *ngIf="addDistributorForm.get('distributorName').invalid && (addDistributorForm.get('distributorName').dirty ||addDistributorForm.get('distributorName').touched )">
+          <small *ngIf="(addDistributorForm.get('distributorName')).errors?.required">Distributor Name is required</small>
+          <small *ngIf="(addDistributorForm.get('distributorName')).errors?.minlength">Please enter more than 4 character</small>
+        </small>
+      </ion-list>
+    </form>
+  </div>
+</ion-content>

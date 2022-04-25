@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Router  } from '@angular/router';
 
 @Component({
@@ -13,6 +14,8 @@ export class ActionPage{
   viewHistoryFormDisplay = false;
   viewDeliverOrderFormDisplay= false;
   createOrderDisplay = false;
+  addDistributorDisplay = false
+  actions = new FormControl();
 
   constructor() {}
 
@@ -34,6 +37,17 @@ export class ActionPage{
     }
     else{
       this.viewProductDisplay = true;
+      this.actionPageDisaply = false;
+    }
+  }
+
+  addDistributor(){
+    if(this.addDistributorDisplay){
+      this.addDistributorDisplay= false;
+      this.actionPageDisaply = true;
+    }
+    else{
+      this.addDistributorDisplay = true;
       this.actionPageDisaply = false;
     }
   }
@@ -104,5 +118,16 @@ export class ActionPage{
       this.actionPageDisaply = true;
       this.createOrderDisplay = false;
     }
+  }
+
+  AddDistributorEvent(event){
+    if(event === 'true'){
+      this.actionPageDisaply = true;
+      this.addDistributorDisplay = false;
+    }
+  }
+
+  valueChange(event){
+    debugger
   }
 }
