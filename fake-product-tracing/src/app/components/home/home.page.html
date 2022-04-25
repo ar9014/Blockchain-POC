@@ -13,15 +13,28 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-card *ngFor="let article of data?.articles">
+<ion-card style="margin-top: 65px;">
+  <ion-img style="height: 550px;" src="assets/fakeProduct.PNG"></ion-img>
+</ion-card>
+
+<!-- <ion-card>
+  <h5>
+    Frustrated with counterfeiting or duplication, consumers and organizations are becoming more tech-savvy. They are now progressively demanding more transparency around the products that they buy, be it related to sustainability, authenticity, or ethical sourcing. Now, to find out if the products are authentic, businesses are turning to blockchain technology. Studies suggest that businesses could reduce the sale of counterfeit products by 60 to 80% by leveraging blockchain and IoT technologies.  
+  </h5>
+  <h5>
+    Over the last couple of years, counterfeit products have played a major role in product manufacturing companies. This has overtly affected the brand, sales, and overall margins of original product manufacturers. Now, with the adoption of blockchain technology, fake products can be detected easily. 
+  </h5>
+</ion-card> -->
+
+  <!-- <ion-card *ngFor="let article of data?.articles"> -->
 
     <!-- <ion-img [src]="item?.urlToImage"></ion-img> -->
 
-    <ion-card-content (click)="onGoToSinglePage(article)">
+    <!-- <ion-card-content (click)="onGoToSinglePage(article)">
       <ion-card-title>{{ article?.title }}</ion-card-title>
-    </ion-card-content>
+    </ion-card-content> -->
 
     <!-- <p>{{ item?.description }}</p> -->
-  </ion-card>
+  <!-- </ion-card> -->
 
 </ion-content>

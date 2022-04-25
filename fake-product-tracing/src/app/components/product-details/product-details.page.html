@@ -1,13 +1,22 @@
+<style>
+  body {font-family: "Lato", sans-serif}
+</style>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      {{ article?.title }}
+      Info
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+  <!-- <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Result</ion-title>
     </ion-toolbar>
@@ -21,6 +30,44 @@
     </ion-card-content>
 
     <p>{{ article?.description }}</p>
-  </ion-card>
+  </ion-card> -->
+
+  <!-- The Contact Section -->
+  <ion-card>
+  <div class="w3-container w3-content w3-padding-64" style="max-width:800px" id="contact">
+    <h2 class="w3-wide w3-center">Contact Tietoevry</h2>
+    <p class="w3-opacity w3-center"><i>Using Blockchain technology fake products can be detected easily!!!</i></p>
+    <div class="w3-row w3-padding-32">
+      <div class="w3-col m6 w3-large w3-margin-bottom">
+        <i class="fa fa-map-marker" style="width:30px"></i> Knowledge Park, MIDC, EON Free Zone, Kharadi, Pune, Maharashtra 411014<br>
+        <i class="fa fa-phone" style="width:30px"></i> Phone: 020 6730 3000<br>
+        <i class="fa fa-envelope" style="width:30px"> </i> Email: fakeproduct.tracing@tietoEvry.com<br>
+        <i class="fa fa-phone" style="width:30px"></i> App Version : 1.0.0<br>
+        <i class="fa fa-phone" style="width:30px"></i> Developed By : Tietoevry<br>
+      </div>
+      <div class="w3-col m6">
+        <form action="/action_page.php" target="_blank">
+          <div class="w3-row-padding" style="margin:0 -16px 8px -16px"></div>
+          <ion-item class="ion-margin-bottom w3-half">
+            <ion-label position="floating">Name</ion-label>
+            <ion-input class="w3-input w3-border" type="text" placeholder="Name" required name="Name"></ion-input>
+          </ion-item>
+  
+          <ion-item class="ion-margin-bottom w3-half">
+            <ion-label position="floating">Email</ion-label>
+            <ion-input class="w3-input w3-border" type="text" placeholder="Email" required name="Email"></ion-input>
+          </ion-item>
+
+          <ion-item class="ion-margin-bottom w3-half">
+            <ion-label position="floating">Message</ion-label>
+            <ion-input class="w3-input w3-border" type="text" placeholder="Message" required name="Message"></ion-input>
+          </ion-item>
+
+          <button class="w3-button w3-black w3-section w3-right" type="submit">SEND</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</ion-card>
 
 </ion-content>

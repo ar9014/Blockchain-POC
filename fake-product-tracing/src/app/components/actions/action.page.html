@@ -13,19 +13,50 @@
     </ion-toolbar>
   </ion-header>
 
+  <ion-item>
+    <ion-label>Please Select User Role</ion-label>
+    <ion-select name="actions" [formControl]="actions" (onclick)="valueChange($event)">
+      <ion-select-option value="producer">Producer</ion-select-option>
+      <ion-select-option value="distributor">Distributor </ion-select-option>
+      <ion-select-option value="consumer">Consumer</ion-select-option>
+    </ion-select>
+  </ion-item>
 
-  <ion-card class="btn-action">
-    <ion-card-content>
-      <ion-card-title (click)="addProductForm()">Add Product</ion-card-title>
-    </ion-card-content>
-  </ion-card>
-
+  <div *ngIf="actions.value === 'producer'">
+    <ion-card class="btn-action">
+      <ion-card-content>
+        <ion-card-title (click)="addProductForm()">Add Product</ion-card-title>
+      </ion-card-content>
+    </ion-card>  
+    
   <ion-card class="btn-action">
     <ion-card-content>
       <ion-card-title (click)="viewProduct()">View Product</ion-card-title>
     </ion-card-content>
   </ion-card>
 
+  <ion-card class="btn-action">
+    <ion-card-content>
+      <ion-card-title (click)="addDistributor()">Add Distributor</ion-card-title>
+    </ion-card-content>
+  </ion-card>
+  </div>
+
+  <div *ngIf="actions.value === 'distributor'">
+    <ion-card class="btn-action">
+      <ion-card-content>
+        <ion-card-title>View Order</ion-card-title>
+      </ion-card-content>
+    </ion-card>
+  
+    <ion-card class="btn-action">
+      <ion-card-content>
+        <ion-card-title (click)="viewDeliverOrderForm()">Deliver Order</ion-card-title>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div *ngIf="actions.value === 'consumer'">
   <ion-card class="btn-action">
     <ion-card-content>
       <ion-card-title>Create Order</ion-card-title>
@@ -40,21 +71,10 @@
 
   <ion-card class="btn-action">
     <ion-card-content>
-      <ion-card-title>Add Distributor</ion-card-title>
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card class="btn-action">
-    <ion-card-content>
-      <ion-card-title (click)="viewDeliverOrderForm()">Deliver Order</ion-card-title>
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card class="btn-action">
-    <ion-card-content>
       <ion-card-title (click)="viewHistoryForm()">Order/ Product History</ion-card-title>
     </ion-card-content>
   </ion-card>
+</div>
 
 </ion-content>
 
@@ -72,4 +92,8 @@
 
 <ion-content *ngIf="viewDeliverOrderFormDisplay">
   <app-deliver-order-form (viewHistoryObj)="ViewDeliverOrderEvent($event)"></app-deliver-order-form>
+</ion-content>
+
+<ion-content *ngIf="addDistributorDisplay">
+  <app-add-distributor (addDistributorObj)="AddDistributorEvent($event)"></app-add-distributor>
 </ion-content>

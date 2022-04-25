@@ -1,7 +1,6 @@
 import { Component, OnInit, Output, EventEmitter  } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-// import { EventEmitter } from 'events';
 
 @Component({
   selector: 'app-add-product-form',

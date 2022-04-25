@@ -13,14 +13,14 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    this.productsService.getData('top-headlines?country=us&category=business').subscribe(data => {
-      this.data = data;
-    })
+    // this.productsService.getData('top-headlines?country=us&category=business').subscribe(data => {
+    //   this.data = data;
+    // })
   }
 
-  onGoToSinglePage(article){
-    this.productsService.currentArticle = null;
-    this.productsService.currentArticle = article;
-    this.router.navigate(['/tabs/tab3']);
-  }
+  // onGoToSinglePage(article){
+  //   this.productsService.currentArticle = null;
+  //   this.productsService.currentArticle = article;
+  //   this.router.navigate(['/tabs/tab3']);
+  // }
 }

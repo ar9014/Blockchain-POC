@@ -9,7 +9,7 @@ import { AddProductFormComponent } from 'src/app/forms/add-product-form/add-prod
 import { ViewProductComponent } from 'src/app/forms/view-product/view-product.component';
 import { ViewOrderHistoryComponent } from 'src/app/forms/view-order-history/view-order-history.component';
 import { DeliverOrderFormComponent } from 'src/app/forms/deliver-order-form/deliver-order-form.component';
-
+import { AddDistributorComponent } from 'src/app/forms/add-distributor/add-distributor.component';
 
 @NgModule({
   imports: [
@@ -20,7 +20,7 @@ import { DeliverOrderFormComponent } from 'src/app/forms/deliver-order-form/deli
     ActionPageRoutingModule,
     ReactiveFormsModule
   ],
-  declarations: [ActionPage,AddProductFormComponent, ViewProductComponent, ViewOrderHistoryComponent, DeliverOrderFormComponent],
+  declarations: [ActionPage,AddProductFormComponent, ViewProductComponent, ViewOrderHistoryComponent, DeliverOrderFormComponent, AddDistributorComponent],
   providers: [],
   exports: []
 })
