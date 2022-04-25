@@ -15,7 +15,7 @@ export class AppConfigurationService {
   producerAddress: string = '0xaD3C10EaAd2F1b07fBa5Adb39FB8e87Fc32Fc4fC';  // ganache second account address
   consumerAddress: string = '0xE3F58A16c5a6D0e93F81cB317AF72a26Bd71cfC7';  // ganache third account address
   distributorAddress: string = '0x164ACB9b31d5d36F830ae07B7Bc0e36ad3BFEf23' // ganache fourth account address
-
+  loc = 'Pune';
 
   constructor(private abiService: AbiService) {
   }
@@ -84,8 +84,7 @@ export class AppConfigurationService {
   }
   // to add product
   public addProduct() {
-
-    const result = this.supplyChainContract.methods.addProducts('Samosa','Samosa garam','Gits','Nagpur', 18).send({
+    const result = this.supplyChainContract.methods.addProducts('Pen','Ball Pen','Cello', this.loc, 11).send({
       from: this.producerAddress
     });
 
@@ -125,9 +124,9 @@ export class AppConfigurationService {
   }
 
   // create order
-  public createOrder(location: string) {
+  public createOrder() {
 
-    const result = this.supplyChainContract.methods.createOrder(location).send({
+    const result = this.supplyChainContract.methods.createOrder(this.loc).send({
       from: this.consumerAddress
     });
 
@@ -137,9 +136,9 @@ export class AppConfigurationService {
   }
 
   // adds distributor to order item
-  public addDistributorToOrderItem(orderItem: number, distributor: string, location: string) {
+  public addDistributorToOrderItem(orderItem: number, distributor: string) {
 
-    const result = this.supplyChainContract.methods.addDistributorToOrderItem(orderItem, distributor, location).send({
+    const result = this.supplyChainContract.methods.addDistributorToOrderItem(orderItem, distributor, this.loc).send({
       from: this.producerAddress
     });
 
@@ -171,8 +170,8 @@ export class AppConfigurationService {
   }
 
   // customer order confirmation
-  public customerConfirmation(orderItem: number, location: string) {
-    const result = this.supplyChainContract.methods.customerConfirmation(orderItem, location).send({
+  public customerConfirmation(orderItem: number) {
+    const result = this.supplyChainContract.methods.customerConfirmation(orderItem, this.loc).send({
       from: this.consumerAddress
     });
 
@@ -182,8 +181,8 @@ export class AppConfigurationService {
   }
 
   // distributor confirmation
-  public orderDelivered(orderItem: number, location: string) {
-    const result = this.supplyChainContract.methods.orderDelivered(orderItem, location).send({
+  public orderDelivered(orderItem: number) {
+    const result = this.supplyChainContract.methods.orderDelivered(orderItem, this.loc).send({
       from: this.distributorAddress
     });
 
