@@ -8,7 +8,6 @@ import "../access/roles/ConsumerRole.sol";
 import "../access/roles/DistributorRole.sol";
 import "../access/roles/ProducerRole.sol";
 
-
 // Define a contract 'Supplychain'
 contract SupplyChain is
     Ownable,
@@ -62,10 +61,12 @@ contract SupplyChain is
 
     struct ActivityLog {
         uint activityId;
+        uint productId;
         address createdBy; 
         string location;
         uint256 createdDateTime;
         OrderItemState currentState; 
+        string stateInString;
     }
 
     struct TempOrderDetail {
@@ -126,17 +127,20 @@ contract SupplyChain is
 
         emit ItemProduced(productIndex);
 
-        addLog(_location, OrderItemState.Produced);
+        addLog(_location, OrderItemState.Produced, "Product Added", productIndex);
     }
 
     // create a log
-    function addLog(string memory _location, OrderItemState _state) public {
+    function addLog(string memory _location, OrderItemState _state, string memory _stateInString, uint _productId) public {
      
         activityLog[logIndexer].activityId = logIndexer + 1;
         activityLog[logIndexer].createdBy = msg.sender;
         activityLog[logIndexer].location = _location;
         activityLog[logIndexer].createdDateTime = block.timestamp;
         activityLog[logIndexer].currentState = _state;
+        activityLog[logIndexer].stateInString = _stateInString;
+        activityLog[logIndexer].productId = _productId;
+
         logIndexer++;
     }
 
@@ -176,7 +180,7 @@ contract SupplyChain is
     }
 
     // adds item in the cart.
-    function addItemInCart(uint productId) public onlyConsumer
+    function addItemInCart(uint productId, string memory _location) public onlyConsumer
     {
         uint index = cartIndexer.length + 1;   // cartinde
 
@@ -184,6 +188,8 @@ contract SupplyChain is
         cartMapping[index].productId = productId;
         cartMapping[index].itemState = OrderItemState.Ordered;
         cartIndexer.push(index);
+
+        addLog(_location, OrderItemState.Ordered, "Product Ordered", productId);  // product added.
 
         emit ItemAddedInCart(index);  // item added event.
     }
@@ -217,8 +223,7 @@ contract SupplyChain is
         
         linkCartItems(orderIndex); // link cart items with order.
 
-        emit OrderPlaced(orderIndex);     // emit event order placed.
-        addLog(_location, OrderItemState.Ordered);        
+        emit OrderPlaced(orderIndex);     // emit event order placed.      
     }
 
     // add orderid to cartItems
@@ -233,7 +238,7 @@ contract SupplyChain is
     function addDistributorToOrderItem(uint _orderItem, address _distributor, string memory _location) public onlyProducer 
     {
         cartMapping[_orderItem].distributor = _distributor;
-        addLog(_location, OrderItemState.DistributorAdded);
+        addLog(_location, OrderItemState.Ordered, "Picked up for Delivery", cartMapping[_orderItem].productId);  // distributor added.
     }
 
     // view distributor
@@ -245,21 +250,22 @@ contract SupplyChain is
     // item delivered distributor confirmation
     function orderDelivered(uint _orderItem, string memory _location) public onlyDistributor 
     {
-        if(cartMapping[_orderItem].itemState == OrderItemState.CustomerDeliveryConfirmed)
-            cartMapping[_orderItem].itemState = OrderItemState.Delivered;
-
+        // if(cartMapping[_orderItem].itemState == OrderItemState.CustomerDeliveryConfirmed)
+        //     cartMapping[_orderItem].itemState = OrderItemState.Delivered;
+        
         emit ItemDelivered(_orderItem);
-        addLog(_location, OrderItemState.Delivered);
+        addLog(_location, OrderItemState.Ordered, "Delivered to Customer", cartMapping[_orderItem].productId);  // delivered.
+
     }
 
     // item delivery customer confirmation
-    function customerConfirmation(uint _orderItem, string memory _location) public onlyConsumer 
-    {
-        cartMapping[_orderItem].itemState = OrderItemState.CustomerDeliveryConfirmed;
+    // function customerConfirmation(uint _orderItem, string memory _location) public onlyConsumer 
+    // {
+    //     cartMapping[_orderItem].itemState = OrderItemState.CustomerDeliveryConfirmed;
 
-        emit ItemDeliveredCustomerConfirmation(_orderItem);
-        addLog(_location, OrderItemState.CustomerDeliveryConfirmed);
-    }
+    //     emit ItemDeliveredCustomerConfirmation(_orderItem);
+    //     addLog(_location, OrderItemState.CustomerDeliveryConfirmed, "Customer Confirmation", cartMapping[_orderItem].productId); // customer confirmation.
+    // }
 
     // fetches order details
     function viewOrder() public view returns(TempOrderDetail[] memory)
