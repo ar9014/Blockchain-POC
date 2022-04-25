@@ -94,6 +94,10 @@
   <app-deliver-order-form (viewHistoryObj)="ViewDeliverOrderEvent($event)"></app-deliver-order-form>
 </ion-content>
 
+<ion-content *ngIf="createOrderDisplay">
+  <app-create-order-form (createOrderObj)="createOrderEvent($event)"></app-create-order-form>
+</ion-content>
+
 <ion-content *ngIf="addDistributorDisplay">
   <app-add-distributor (addDistributorObj)="AddDistributorEvent($event)"></app-add-distributor>
 </ion-content>

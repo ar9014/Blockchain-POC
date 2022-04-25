@@ -13,6 +13,7 @@ export class ActionPage{
   viewProductDisplay = false;
   viewHistoryFormDisplay = false;
   viewDeliverOrderFormDisplay= false;
+  createOrderDisplay = false;
   addDistributorDisplay = false
   actions = new FormControl();
 
@@ -98,6 +99,24 @@ export class ActionPage{
     if(event === 'true'){
       this.actionPageDisaply = true;
       this.viewDeliverOrderFormDisplay = false;
+    }
+  }
+
+  createOrderFrom(){
+    if(this.createOrderDisplay){
+      this.createOrderDisplay= false;
+      this.actionPageDisaply = true;
+    }
+    else{
+      this.createOrderDisplay = true;
+      this.actionPageDisaply = false;
+    }
+  }
+
+  createOrderEvent(event){
+    if(event){
+      this.actionPageDisaply = true;
+      this.createOrderDisplay = false;
     }
   }
 
