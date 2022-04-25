@@ -28,6 +28,12 @@
           <small *ngIf="(addDistributorForm.get('distributorName')).errors?.required">Distributor Name is required</small>
           <small *ngIf="(addDistributorForm.get('distributorName')).errors?.minlength">Please enter more than 4 character</small>
         </small>
+
+        <ion-item class="ion-float-right" lines="none">
+          <ion-button color="primary" [disabled]="!addDistributorForm.valid" type="submit">Save Details</ion-button>
+          <ion-button color="primary" (click)="onReset()">Reset Form</ion-button>
+          <ion-button color="primary" (click)="goBack()">Back</ion-button>
+        </ion-item>
       </ion-list>
     </form>
   </div>
