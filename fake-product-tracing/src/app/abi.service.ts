@@ -213,6 +213,11 @@ export class AbiService {
           "type": "uint256"
         },
         {
+          "internalType": "uint256",
+          "name": "productId",
+          "type": "uint256"
+        },
+        {
           "internalType": "address",
           "name": "createdBy",
           "type": "address"
@@ -231,6 +236,11 @@ export class AbiService {
           "internalType": "enum SupplyChain.OrderItemState",
           "name": "currentState",
           "type": "uint8"
+        },
+        {
+          "internalType": "string",
+          "name": "stateInString",
+          "type": "string"
         }
       ],
       "stateMutability": "view",
@@ -291,6 +301,11 @@ export class AbiService {
           "internalType": "uint256",
           "name": "productId",
           "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "_location",
+          "type": "string"
         }
       ],
       "name": "addItemInCart",
@@ -309,6 +324,16 @@ export class AbiService {
           "internalType": "enum SupplyChain.OrderItemState",
           "name": "_state",
           "type": "uint8"
+        },
+        {
+          "internalType": "string",
+          "name": "_stateInString",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_productId",
+          "type": "uint256"
         }
       ],
       "name": "addLog",
@@ -376,24 +401,6 @@ export class AbiService {
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_orderItem",
-          "type": "uint256"
-        },
-        {
-          "internalType": "string",
-          "name": "_location",
-          "type": "string"
-        }
-      ],
-      "name": "customerConfirmation",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
       "inputs": [],
       "name": "getLogs",
       "outputs": [
@@ -402,6 +409,11 @@ export class AbiService {
             {
               "internalType": "uint256",
               "name": "activityId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "productId",
               "type": "uint256"
             },
             {
@@ -423,6 +435,11 @@ export class AbiService {
               "internalType": "enum SupplyChain.OrderItemState",
               "name": "currentState",
               "type": "uint8"
+            },
+            {
+              "internalType": "string",
+              "name": "stateInString",
+              "type": "string"
             }
           ],
           "internalType": "struct SupplyChain.ActivityLog[]",
