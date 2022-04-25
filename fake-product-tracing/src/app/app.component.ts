@@ -29,19 +29,21 @@ export class AppComponent implements OnInit{
 
     // this.blockchainConnectionService.addItemInCart(1);
 
-    // this.blockchainConnectionService.addItemInCart(1);
+    // this.blockchainConnectionService.addItemInCart(5);
 
     // this.blockchainConnectionService.viewOrder();
 
-    // this.blockchainConnectionService.createOrder('Satara');
+    // this.blockchainConnectionService.createOrder();
 
     // this.blockchainConnectionService.addDistributor();
 
-    //  this.blockchainConnectionService.addDistributorToOrderItem(1,'0x164ACB9b31d5d36F830ae07B7Bc0e36ad3BFEf23','Pune');
+    //  this.blockchainConnectionService.addDistributorToOrderItem(1,'0x5244386624304A10c1F41f4DC35e033630ED91c1');
 
     // this.blockchainConnectionService.customerConfirmation(1,'Pune');
 
-   // this.blockchainConnectionService.orderDelivered(1,'Pune');
+  //  this.blockchainConnectionService.orderDelivered(1);
+
+    // this.blockchainConnectionService.getLogs();
 
    }
 
