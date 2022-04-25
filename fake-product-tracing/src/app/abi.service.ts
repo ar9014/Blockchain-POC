@@ -871,6 +871,6 @@ export class AbiService {
   }
 
   public getContractAddress(): string {
-    return '0x09b7a2be15aBBceDb455d99E4f097676273b3377';
+    return '0xb21E97a1cbCa4f2E10a5cD59c43759C5aad52Fa4';
   }
 }
