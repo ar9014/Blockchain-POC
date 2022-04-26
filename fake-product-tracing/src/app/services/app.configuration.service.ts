@@ -91,9 +91,10 @@ export class AppConfigurationService {
       console.log(instance)
     });
   }
+
   // to add product
-  public addProduct() {
-    const result = this.supplyChainContract.methods.addProducts('Scale','Steel Scale','Apsara', this.loc, 40).send({
+  public addProduct(productName: string, productDesc:string, producerName: string) {
+    const result = this.supplyChainContract.methods.addProducts(productName, productDesc, producerName, this.loc, 40).send({
       from: this.producerAddress
     });
 

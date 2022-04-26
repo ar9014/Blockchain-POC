@@ -21,7 +21,7 @@
 
         <ion-item class="ion-margin-bottom">
           <ion-label position="floating">Product Description</ion-label>
-          <ion-input type="text" formControlName="productName"></ion-input>
+          <ion-input type="text" formControlName="productDesc"></ion-input>
         </ion-item>
         <small *ngIf="addProductForm.get('productDesc').invalid && (addProductForm.get('productDesc').dirty ||addProductForm.get('productDesc').touched )">
           <small *ngIf="(addProductForm.get('productDesc')).errors?.required">Product Description is required</small>
@@ -37,7 +37,7 @@
         </small>
 
         <ion-item class="ion-float-right" lines="none">
-          <ion-button color="primary" [disabled]="!addProductForm.valid" type="submit">Save Details</ion-button>
+          <ion-button color="primary" type="submit">Save Details</ion-button>
           <ion-button color="primary" (click)="onReset()">Reset Form</ion-button>
           <ion-button color="primary" (click)="goBack()">Back</ion-button>
         </ion-item>
