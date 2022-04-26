@@ -36,6 +36,14 @@
           <small *ngIf="(addProductForm.get('producerName')).errors?.required">Producer Name is required</small>
         </small>
 
+        <ion-item class="ion-margin-bottom">
+          <ion-label position="floating">Price</ion-label>
+          <ion-input type="number" formControlName="price"></ion-input>
+        </ion-item>
+        <small *ngIf="addProductForm.get('price').invalid && (addProductForm.get('price').dirty ||addProductForm.get('price').touched )">
+          <small *ngIf="(addProductForm.get('price')).errors?.required">Producer Name is required</small>
+        </small>
+
         <ion-item class="ion-float-right" lines="none">
           <ion-button color="primary" [disabled]="!addProductForm.valid" type="submit">Save Details</ion-button>
           <ion-button color="primary" (click)="onReset()">Reset Form</ion-button>

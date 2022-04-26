@@ -90,10 +90,14 @@ export class AppConfigurationService {
     });
   }
   // to add product
-  public addProduct() {
-    const result = this.supplyChainContract.methods.addProducts('Pen','Ball Pen','Cello', this.loc, 11).send({
+  public addProduct(productName: string, productDesc: string, producerName: string, loaction: string, price: number) {
+    const result = this.supplyChainContract.methods.addProducts(productName, productDesc, producerName, this.loc, price).send({
       from: this.producerAddress
     });
+
+    // const result = this.supplyChainContract.methods.addProducts('Pen','Ball Pen','Cello', this.loc, 11).send({
+    //   from: this.producerAddress
+    // });
 
     result.then((result) => {
         console.log(result);
