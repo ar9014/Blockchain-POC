@@ -10,23 +10,24 @@
   <div class="ion-padding">
     <form [formGroup]="addDistributorForm" (ngSubmit)="addDistributor()">
       <ion-list>
-        
+
         <ion-item>
           <ion-label>Please Select Accounts</ion-label>
+          <!-- (ngModelChange)="userChange($event)" -->
           <ion-select name="account" formControlName="account">
-            <ion-select-option value="producer">Accounts 1</ion-select-option>
-            <ion-select-option value="distributor">Accounts 2 </ion-select-option>
-            <ion-select-option value="consumer">Accounts 3</ion-select-option>
+            <ion-select-option *ngFor="let userAccount of userAccounts" [value]="userAccount.address">{{userAccount.name}}</ion-select-option>
+            <!-- <ion-select-option value="distributor">Accounts 2 </ion-select-option>
+            <ion-select-option value="consumer">Accounts 3</ion-select-option> -->
           </ion-select>
         </ion-item>
 
         <ion-item class="ion-margin-bottom">
-          <ion-label position="floating">Distributor Name</ion-label>
-          <ion-input type="text" formControlName="distributorName"></ion-input>
+          <ion-label position="floating">Order Number</ion-label>
+          <ion-input type="text" formControlName="orderNumber"></ion-input>
         </ion-item>
-        <small *ngIf="addDistributorForm.get('distributorName').invalid && (addDistributorForm.get('distributorName').dirty ||addDistributorForm.get('distributorName').touched )">
-          <small *ngIf="(addDistributorForm.get('distributorName')).errors?.required">Distributor Name is required</small>
-          <small *ngIf="(addDistributorForm.get('distributorName')).errors?.minlength">Please enter more than 4 character</small>
+        <small *ngIf="addDistributorForm.get('orderNumber').invalid && (addDistributorForm.get('orderNumber').dirty ||addDistributorForm.get('orderNumber').touched )">
+          <small *ngIf="(addDistributorForm.get('orderNumber')).errors?.required">Oreder number is required</small>
+          <small *ngIf="(addDistributorForm.get('orderNumber')).errors?.minlength">Please enter more than 4 character</small>
         </small>
 
         <ion-item class="ion-float-right" lines="none">
