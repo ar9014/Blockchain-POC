@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class CreateOrderFormComponent implements OnInit {
 
   products: Products[]; 
+  buttonDisabled: boolean = false;
 
   constructor() { }
 
@@ -20,12 +21,13 @@ export class CreateOrderFormComponent implements OnInit {
     var self= this;
     function handleInput(event) {
       const query = event.target.value.toLowerCase();
-      if(query){
+      const productLen = self.products.length;
+      if(query && productLen){
           var products = self.products.filter((x)=>x.productName.toLocaleLowerCase().indexOf(query) > -1);
           if(products.length){
             self.products = products;
           } 
-      } else{
+      } else {
         self.getProducts();
       }
     }
@@ -34,6 +36,7 @@ export class CreateOrderFormComponent implements OnInit {
  
 
   getProducts(){
+    //// get products service call.
     this.products = [
       {productName:'Computer', productId:1, description:"10 Items..", iconChange:false},
       {productName:'Mouse', productId:2, description:"10 Items", iconChange:false},
@@ -47,11 +50,19 @@ export class CreateOrderFormComponent implements OnInit {
     var iconChange = this.products.filter((x) => x.productId === productId)[0].iconChange;
     this.products.filter((x) => x.productId === productId)[0].iconChange = iconChange ? false :true;
     if(!iconChange){
+      this.buttonDisabled = true;
      console.log(productId);
+     /// add to product service call.
+    } else {
+      var iconStatusLen = this.products.filter(x=>x.iconChange === false).length;
+      if(iconStatusLen === this.products.length){
+        this.buttonDisabled = false;
+      }
     }
   }
 
   createOrder(){
+    // create order service call
     console.log("create order call.")
   }
 

@@ -1,7 +1,9 @@
 
   <ion-header class="ion-no-border">
     <ion-toolbar class="create-order-header">
-      <ion-title style="font-weight: 600;">Create Order</ion-title>
+      <ion-title style="font-weight: 600;">
+        Create Order
+      </ion-title>
     </ion-toolbar>
   </ion-header>
   <div> 
@@ -29,6 +31,6 @@
 </div>
 </ion-content>
 <ion-footer>
-<ion-button expand="block" size="large" style="padding-left: 1em; padding-right: 1em;" (click)="createOrder()">Create Order</ion-button>
+<ion-button expand="block" disabled={{!buttonDisabled}} size="large" style="padding-left: 1em; padding-right: 1em;" (click)="createOrder()">Create Order</ion-button>
 </ion-footer>
 
