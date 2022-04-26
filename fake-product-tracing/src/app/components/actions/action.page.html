@@ -27,8 +27,8 @@
       <ion-card-content>
         <ion-card-title (click)="addProductForm()">Add Product</ion-card-title>
       </ion-card-content>
-    </ion-card>  
-    
+    </ion-card>
+
   <ion-card class="btn-action">
     <ion-card-content>
       <ion-card-title (click)="viewProduct()">View Product</ion-card-title>
@@ -48,7 +48,7 @@
         <ion-card-title>View Order</ion-card-title>
       </ion-card-content>
     </ion-card>
-  
+
     <ion-card class="btn-action">
       <ion-card-content>
         <ion-card-title (click)="viewDeliverOrderForm()">Deliver Order</ion-card-title>
@@ -59,7 +59,7 @@
   <div *ngIf="actions.value === 'consumer'">
   <ion-card class="btn-action">
     <ion-card-content>
-      <ion-card-title (click)="createOrderFrom($event)">Create Order</ion-card-title>
+      <ion-card-title (click)="createOrderFrom()">Create Order</ion-card-title>
     </ion-card-content>
   </ion-card>
 

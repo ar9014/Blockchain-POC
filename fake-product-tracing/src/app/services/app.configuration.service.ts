@@ -171,11 +171,9 @@ export class AppConfigurationService {
   }
 
   // get logs
-  public getLogs(index: number) {
+  public getLogs(): any {
     const result =  this.supplyChainContract.methods.getLogs().call();
-    result.then((result) => {  console.log(result); }).catch((error) => {
-      console.log('Error while trying to get logs: ' + error.message)
-    });
+    return result;
   }
 
    // get all the products

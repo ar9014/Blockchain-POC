@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-create-order-form',
@@ -6,8 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./create-order-form.component.scss'],
 })
 export class CreateOrderFormComponent implements OnInit {
-
-  products: Products[]; 
+  @Output() createOrderObj = new EventEmitter();
+  products: Products[];
   buttonDisabled: boolean = false;
 
   constructor() { }
@@ -26,14 +26,14 @@ export class CreateOrderFormComponent implements OnInit {
           var products = self.products.filter((x)=>x.productName.toLocaleLowerCase().indexOf(query) > -1);
           if(products.length){
             self.products = products;
-          } 
+          }
       } else {
         self.getProducts();
       }
     }
   }
 
- 
+
 
   getProducts(){
     //// get products service call.
@@ -66,6 +66,9 @@ export class CreateOrderFormComponent implements OnInit {
     console.log("create order call.")
   }
 
+  goBack(){
+    this.createOrderObj.emit('true');
+  }
 }
 
 interface  Products{
