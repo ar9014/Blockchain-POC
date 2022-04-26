@@ -61,7 +61,7 @@ export class ViewOrderHistoryComponent implements OnInit {
     this.placesSub = obsr.subscribe(places => {
       this.steps = places;
     });
-    let result = this.blockchainConnectionService.getLogs(this.viewHistoryForm.value);
+    let result = this.blockchainConnectionService.getLogs();
     console.log(result);
   }
 
