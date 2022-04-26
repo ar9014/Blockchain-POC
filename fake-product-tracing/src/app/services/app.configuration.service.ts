@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { error } from "protractor";
 import Web3 from 'web3/dist/web3.min.js';
 import { AbiService } from "../abi.service";
 
@@ -60,7 +61,9 @@ export class AppConfigurationService {
         from: this.ownerAddress
       })
 
-      result.then((instance) => { console.log(instance) });
+      result.then((instance) => { console.log(instance) }).catch((error) => {
+        console.log('Error while trying to add farmer: ' + error.message)
+      });
   }
 
   // addConsumer
@@ -69,7 +72,9 @@ export class AppConfigurationService {
       from: this.ownerAddress
     })
 
-    result.then((instance) => { console.log(instance) });
+    result.then((instance) => { console.log(instance) }).catch((error) => {
+      console.log('Error while trying to add consumer: ' + error.message)
+    });
   }
 
   // addDistributor
@@ -80,6 +85,8 @@ export class AppConfigurationService {
 
     result.then((instance) =>{
       console.log(instance)
+    }).catch((error) => {
+      console.log('Error while trying to add distributor role: ' + error.message)
     });
   }
   // to add product
@@ -90,6 +97,8 @@ export class AppConfigurationService {
 
     result.then((result) => {
         console.log(result);
+    }).catch((error) => {
+      console.log('Error while trying to add new product: ' + error.message)
     });
 
   }
@@ -102,6 +111,8 @@ export class AppConfigurationService {
 
     result.then((result) => {
       console.log(result);
+    }).catch((error) => {
+      console.log('Error while trying to view products: ' + error.message)
     });
   }
 
@@ -112,6 +123,8 @@ export class AppConfigurationService {
     });
     result.then((result) => {
         console.log(result);
+    }).catch((error) => {
+      console.log('Error while trying to add Items to cart: ' + error.message)
     });
   }
 
@@ -120,7 +133,9 @@ export class AppConfigurationService {
    const result =  this.supplyChainContract.methods.viewCartItems(index).call(
     { from: this.consumerAddress }
    )
-   result.then((result) => {  console.log(result); });
+   result.then((result) => {  console.log(result); }).catch((error) => {
+    console.log('Error while trying to view cart items: ' + error.message)
+  });
   }
 
   // create order
@@ -132,6 +147,8 @@ export class AppConfigurationService {
 
     result.then((result) => {
         console.log(result);
+    }).catch((error) => {
+      console.log('Error while trying to create order: ' + error.message)
     });
   }
 
@@ -144,13 +161,17 @@ export class AppConfigurationService {
 
     result.then((result) => {
         console.log(result);
-    });
+    }).catch((error) => {
+      console.log('Error while trying to add distributor to Order: ' + error.message)
+    });;
   }
 
   // get logs
   public getLogs(index: number) {
     const result =  this.supplyChainContract.methods.getLogs().call();
-    result.then((result) => {  console.log(result); });
+    result.then((result) => {  console.log(result); }).catch((error) => {
+      console.log('Error while trying to get logs: ' + error.message)
+    });
   }
 
    // get all the products
@@ -158,6 +179,8 @@ export class AppConfigurationService {
    const result =  this.supplyChainContract.methods.getProuducts().call();
     result.then((result) => {
      console.log(result);
+    }).catch((error) => {
+      console.log('Error while trying to get products: ' + error.message)
     });
   }
 
@@ -166,6 +189,8 @@ export class AppConfigurationService {
     const result =  this.supplyChainContract.methods.viewOrder().call()
     result.then((result) => {
       console.log(result);
+    }).catch((error) => {
+      console.log('Error while trying to view order: ' + error.message)
     });
   }
 
@@ -177,6 +202,8 @@ export class AppConfigurationService {
 
     result.then((result) => {
         console.log(result);
+    }).catch((error) => {
+      console.log('Error while trying to do customer confirmation: ' + error.message)
     });
   }
 
@@ -188,6 +215,8 @@ export class AppConfigurationService {
 
     result.then((result) => {
         console.log(result);
+    }).catch((error) => {
+      console.log('Error while trying to make order delivery confirmation: ' + error.message)
     });
   }
 }
