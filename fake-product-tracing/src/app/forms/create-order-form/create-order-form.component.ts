@@ -16,10 +16,10 @@ export class CreateOrderFormComponent implements OnInit {
     this.getProducts();
 
     const searchbar = document.querySelector('ion-searchbar');
-    searchbar.addEventListener('ionInput', handleInput);
+    searchbar.addEventListener('ionInput', searchProduct);
 
     var self= this;
-    function handleInput(event) {
+    function searchProduct(event) {
       const query = event.target.value.toLowerCase();
       const productLen = self.products.length;
       if(query && productLen){
@@ -52,7 +52,7 @@ export class CreateOrderFormComponent implements OnInit {
     if(!iconChange){
       this.buttonDisabled = true;
      console.log(productId);
-     /// add to product service call.
+     /// add product into cart service call.
     } else {
       var iconStatusLen = this.products.filter(x=>x.iconChange === false).length;
       if(iconStatusLen === this.products.length){
