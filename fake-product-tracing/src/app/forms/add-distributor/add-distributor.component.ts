@@ -15,8 +15,8 @@ export class AddDistributorComponent implements OnInit {
   selectedUserAddress: string;
   userAccounts: UserAccounts[]= [
     {
-      name: 'Disctributor 1',
-      address: '0x555d1413170b1280BD7ee42c1A8B98b6E62774f7'
+      name: 'Distributor',
+      address: this.blockchainConnectionService.distributorAddress
     }
   ];
   constructor(private fb: FormBuilder, private router: Router, private blockchainConnectionService: AppConfigurationService) {
