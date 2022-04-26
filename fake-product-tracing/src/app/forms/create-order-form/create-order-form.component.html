@@ -1,4 +1,4 @@
-<ion-content>
+
   <ion-header class="ion-no-border">
     <ion-toolbar class="create-order-header">
       <ion-title style="font-weight: 600;">Create Order</ion-title>
@@ -7,15 +7,28 @@
   <div> 
     <ion-searchbar></ion-searchbar>
   </div>
+  <ion-content [scrollEvents]="true" style="height: 480px;">
 <ion-row style="height: 2em;"></ion-row>
-  <div *ngFor="let order of orders">
+  <div *ngFor="let product of products">
   <ion-item>
     <ion-label>
-      {{order}}
-      <ion-icon style="float: right;" name="add-circle"></ion-icon>
+      <ion-row>
+        <ion-col>
+      {{product.productName}}
+    </ion-col>
+    <ion-col>
+      {{product.description}}
+    </ion-col>
+    <ion-col>
+      <ion-icon style="float: right;" name="add-circle" *ngIf="!product.iconChange" (click)="addProductIntoCart(product.productId)"></ion-icon>
+      <ion-icon style="float: right; color: green;" name="checkmark-circle" *ngIf="product.iconChange" (click)="addProductIntoCart(product.productId)"></ion-icon>
+    </ion-col>
+    </ion-row>
     </ion-label>
   </ion-item>
 </div>
-<ion-row style="height: 10em;"></ion-row>
-<ion-button expand="block" size="large" style="padding-left: 1em; padding-right: 1em;">Create Order</ion-button>
 </ion-content>
+<ion-footer>
+<ion-button expand="block" size="large" style="padding-left: 1em; padding-right: 1em;" (click)="createOrder()">Create Order</ion-button>
+</ion-footer>
+
