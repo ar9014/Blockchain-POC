@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter  } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
+import { AppConfigurationService } from 'src/app/services/app.configuration.service';
 import { Step } from '../step.model';
 // import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 
@@ -17,7 +18,7 @@ export class DeliverOrderFormComponent implements OnInit {
   steps: Step[];
   private placesSub: Subscription;
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(private fb: FormBuilder, private router: Router, private blockchainConnectionService: AppConfigurationService) {
     this.viewDeliverOrderFormDisplay = this.fb.group({
       orderNumber: [null, [Validators.required]]
     });
@@ -40,7 +41,8 @@ export class DeliverOrderFormComponent implements OnInit {
     // this.placesSub = obsr.subscribe(places => {
     //   this.steps = places;
     // });
-    alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.viewDeliverOrderFormDisplay.value, null, 4));
+    this.blockchainConnectionService.orderDelivered(this.viewDeliverOrderFormDisplay.value);
+    alert('Order ' + this.viewDeliverOrderFormDisplay.value + ' is deliverd!!' );
   }
 
   onReset() {
