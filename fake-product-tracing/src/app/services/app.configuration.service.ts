@@ -17,6 +17,13 @@ export class AppConfigurationService {
   distributorAddress: string = '0x5244386624304A10c1F41f4DC35e033630ED91c1' // ganache fourth account address
   loc = 'Pune';
 
+  memberList = [{
+    "Owner": "0x5d09C0a00bA291F36ddb9d5bC14B9fe4A13D1f93",
+    "Producer": "0x1258F44a41912403Cd021988Cb5Ab2d27E89fcB6",
+    "Consumer": "0xC6bFC0b3d22A061a2Ad0d386F58Fc5ae43bc941B",
+    "Distributor": "0x5244386624304A10c1F41f4DC35e033630ED91c1",
+  }]
+
   constructor(private abiService: AbiService) {
   }
 
@@ -150,11 +157,9 @@ export class AppConfigurationService {
   }
 
   // get logs
-  public getLogs() {
+  public getLogs(): any {
     const result =  this.supplyChainContract.methods.getLogs().call();
-    result.then((result) => {
-      console.log(result);
-    });
+    return result;
   }
 
    // get all the products
