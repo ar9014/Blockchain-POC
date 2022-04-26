@@ -24,7 +24,6 @@ export class ViewOrderHistoryComponent implements OnInit {
   submitted = false;
   filteredData: log[];
   logsData: log[];
-  private placesSub: Subscription;
 
   private _steps = new Subject<log[]>();
 
@@ -50,9 +49,7 @@ export class ViewOrderHistoryComponent implements OnInit {
       this._steps.next(data);
     });
 
-    let obsr = this._steps.asObservable();
-
-    this.placesSub = obsr.subscribe(places => {
+    this._steps.subscribe(places => {
         this.filteredData = places.filter(proj => proj.productId.toString() === this.viewHistoryForm?.value?.productNumber);
     });
 

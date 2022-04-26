@@ -1,4 +1,16 @@
+
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Subject } from 'rxjs';
+import { AppConfigurationService } from 'src/app/services/app.configuration.service';
+
+interface  Products {
+  producerName: string;
+  productDesc: string;
+  productId: number;
+  productName: string;
+  quantity: number;
+  iconChange: boolean;
+}
 
 @Component({
   selector: 'app-create-order-form',
@@ -7,57 +19,66 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 })
 export class CreateOrderFormComponent implements OnInit {
   @Output() createOrderObj = new EventEmitter();
-  products: Products[];
   buttonDisabled: boolean = false;
 
-  constructor() { }
+  private products = new Subject<Products[]>();
+  public productList : Products[];
+  constructor(private blockchainConnectionService: AppConfigurationService) { }
 
   ngOnInit() {
-    this.getProducts();
-
-    const searchbar = document.querySelector('ion-searchbar');
-    searchbar.addEventListener('ionInput', searchProduct);
 
     var self= this;
-    function searchProduct(event) {
+    self.getProducts();
+
+    const searchbar = document.querySelector('ion-searchbar');
+    searchbar.addEventListener('ionInput', handleInput);
+
+    function handleInput(event) {
       const query = event.target.value.toLowerCase();
-      const productLen = self.products.length;
-      if(query && productLen){
-          var products = self.products.filter((x)=>x.productName.toLocaleLowerCase().indexOf(query) > -1);
+      if(query){
+          var products = self.productList.filter((x)=>x.productName.toLocaleLowerCase().indexOf(query) > -1);
+
           if(products.length){
-            self.products = products;
+            self.productList = products;
           }
-      } else {
+
+      } else{
         self.getProducts();
       }
     }
   }
 
 
+  getProducts() {
+    let result = this.blockchainConnectionService.getProuducts();
 
-  getProducts(){
-    //// get products service call.
-    this.products = [
-      {productName:'Computer', productId:1, description:"10 Items..", iconChange:false},
-      {productName:'Mouse', productId:2, description:"10 Items", iconChange:false},
-      {productName:'Pen', productId:3, description:"3 Items", iconChange:false},
-      {productName:'Paper', productId:4, description:"3 Items", iconChange:false},
-      {productName:'Beer', productId:5, description:"5 Items", iconChange:false}
-    ];
+    result.then((data) => {
+      this.products.next(data);
+    });
+
+    this.products.subscribe(items => {
+      this.productList = items;
+
+      this.productList = items.map((data)=> ({
+        producerName: data.producerName,
+        productDesc: data.productDesc,
+        productId: data.productId,
+        productName: data.productName,
+        quantity: data.quantity,
+        iconChange: false
+      }));
+    });
+
   }
 
   addProductIntoCart(productId){
-    var iconChange = this.products.filter((x) => x.productId === productId)[0].iconChange;
-    this.products.filter((x) => x.productId === productId)[0].iconChange = iconChange ? false :true;
+
+    var iconChange = this.productList.filter((x) => x.productId === productId)[0].iconChange;
+    this.productList.filter((x) => x.productId === productId)[0].iconChange = iconChange ? false : true;
+
     if(!iconChange){
-      this.buttonDisabled = true;
-     console.log(productId);
-     /// add product into cart service call.
-    } else {
-      var iconStatusLen = this.products.filter(x=>x.iconChange === false).length;
-      if(iconStatusLen === this.products.length){
-        this.buttonDisabled = false;
-      }
+      console.log(productId);
+      this.blockchainConnectionService.addItemInCart(productId);
     }
   }
 
@@ -71,9 +92,3 @@ export class CreateOrderFormComponent implements OnInit {
   }
 }
 
-interface  Products{
-  productName:string;
-  productId:number;
-  description:string;
-  iconChange: boolean;
-}
