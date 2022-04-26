@@ -18,32 +18,8 @@ export class AppComponent implements OnInit{
     this.blockchainConnectionService.supplyChain(); // opens metamask if account is not connected to current provider
 
     // this.blockchainConnectionService.addFarmer();
-
-    // this.blockchainConnectionService.addProduct();
-    // this.blockchainConnectionService.viewProduct(1);
-
     // this.blockchainConnectionService.addConsumer();
-    // this.blockchainConnectionService.viewProduct(1);
-
-    // this.blockchainConnectionService.getProuducts();
-
-    // this.blockchainConnectionService.addItemInCart(1);
-
-    // this.blockchainConnectionService.addItemInCart(5);
-
-    // this.blockchainConnectionService.viewOrder();
-
-    // this.blockchainConnectionService.createOrder();
-
     // this.blockchainConnectionService.addDistributor();
-
-    //  this.blockchainConnectionService.addDistributorToOrderItem(1,'0x5244386624304A10c1F41f4DC35e033630ED91c1');
-
-    // this.blockchainConnectionService.customerConfirmation(1,'Pune');
-
-  //  this.blockchainConnectionService.orderDelivered(1);
-
-    // this.blockchainConnectionService.getLogs();
 
    }
 

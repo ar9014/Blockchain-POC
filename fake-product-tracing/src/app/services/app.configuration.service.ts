@@ -2,7 +2,6 @@ import { Injectable } from "@angular/core";
 import { error } from "protractor";
 import Web3 from 'web3/dist/web3.min.js';
 import { AbiService } from "../abi.service";
-
 declare const window: any;
 
 @Injectable({
@@ -13,10 +12,10 @@ export class AppConfigurationService {
   window: any;
   supplyChainContract: any;
 
-    ownerAddress: string = '0x5d09C0a00bA291F36ddb9d5bC14B9fe4A13D1f93'; // contract owner
-    producerAddress: string = '0x1258F44a41912403Cd021988Cb5Ab2d27E89fcB6'; // ganache second account address
-    consumerAddress: string = '0xC6bFC0b3d22A061a2Ad0d386F58Fc5ae43bc941B'; // ganache third account address
-    distributorAddress: string = '0x5244386624304A10c1F41f4DC35e033630ED91c1' // ganache fourth account address
+    ownerAddress: string = '0xd93C64F34cd0eB3285dDB20C1EeA192FbF2E29Ff'; // contract owner
+    producerAddress: string = '0x91f0a931763cc551296882242DbeBfc8c043016b'; // ganache second account address
+    consumerAddress: string = '0xc7dd0272860B44A486BB2Ae1a2992B658861c9A9'; // ganache third account address
+    distributorAddress: string = '0xb9Cfc507710cB0B9EfC17D257fEbc2D0484aAb55' // ganache fourth account address
 
 
   loc = 'Pune';
@@ -94,17 +93,10 @@ export class AppConfigurationService {
   }
 
   // to add product
-  public addProduct(productName: string, productDesc: string, producerName: string, price: number) {
+  public addProduct(productName: string, productDesc: string, producerName: string, price: number): any {
     const result = this.supplyChainContract.methods.addProducts(productName, productDesc, producerName, this.loc, price).send({
       from: this.producerAddress
     });
-
-    // result.then((result) => {
-    //     console.log(result);
-    // }).catch((error) => {
-    //   console.log('Error while trying to add new product: ' + error.message)
-    // });
-
     return result;
   }
 
@@ -126,7 +118,7 @@ export class AppConfigurationService {
     const result = this.supplyChainContract.methods.addItemInCart(productId, this.loc).send({
       from: this.consumerAddress
     });
-    
+
     result.then((result) => {
         console.log(result);
     }).catch((error) => {
