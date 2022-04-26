@@ -1,9 +1,17 @@
 import { Component, OnInit, Output, EventEmitter  } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { AppConfigurationService } from 'src/app/services/app.configuration.service';
 import { Step } from '../step.model';
+
+interface log {
+  stateInString: string,
+  productId: number,
+  createdDateTime: any,
+  location: string,
+  createdBy: ''
+}
 
 @Component({
   selector: 'app-view-order-history',
@@ -14,55 +22,40 @@ export class ViewOrderHistoryComponent implements OnInit {
   @Output() viewHistoryObj = new EventEmitter();
   viewHistoryForm: FormGroup;
   submitted = false;
-  steps: Step[];
+  filteredData: log[];
+  logsData: log[];
   private placesSub: Subscription;
 
-  private _steps = new BehaviorSubject<Step[]>([
-    new Step(
-      'Product Added',
-      'Samir J',
-      '01-01-2022',
-      'Tumsar',
-    ),
-    new Step(
-      'Product Ordered',
-      "Dnyaneshwar M",
-      '05-01-2022',
-      'Akola'
-    ),
-    new Step(
-      'Picked up for Delivery',
-      'Akshay R',
-      '08-01-2022',
-      'Pune'  
-    ),
-    new Step(
-      'Delivered to Customer',
-      'Adharsh',
-      '12-01-2022',
-      'Nanded'  
-    )
-  ]);
+  private _steps = new Subject<log[]>();
 
   constructor(private fb: FormBuilder, private router: Router, private blockchainConnectionService: AppConfigurationService) {
     this.viewHistoryForm = this.fb.group({
-      productNumber: [null, [Validators.required, Validators.minLength(5)]]
+      productNumber: [null, [Validators.required, Validators.minLength(1)]]
     });
   }
 
   ngOnInit() {}
 
   viewHistory() {
+
     this.submitted = true
+
     if (this.viewHistoryForm.invalid) {
       return;
     }
-    let obsr = this._steps.asObservable();
-    this.placesSub = obsr.subscribe(places => {
-      this.steps = places;
-    });
+
     let result = this.blockchainConnectionService.getLogs();
-    console.log(result);
+
+    result.then((data) => {
+      this._steps.next(data);
+    });
+
+    let obsr = this._steps.asObservable();
+
+    this.placesSub = obsr.subscribe(places => {
+        this.filteredData = places.filter(proj => proj.productId.toString() === this.viewHistoryForm?.value?.productNumber);
+    });
+
   }
 
   onReset() {
@@ -72,7 +65,11 @@ export class ViewOrderHistoryComponent implements OnInit {
 
   goBack(){
     this.viewHistoryObj.emit('true');
-    // this.router.navigate(['./']);
+  }
+
+  convertToDateTime(time:any)
+  {
+    return new Date(time)
   }
 
 }
