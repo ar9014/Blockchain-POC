@@ -12,10 +12,13 @@ declare const window: any;
 export class AppConfigurationService {
   window: any;
   supplyChainContract: any;
-  ownerAddress: string = '0x60431CE1331Bc9199Ad4A464C415963696b6e775';  // contract owner
-  producerAddress: string = '0xaD3C10EaAd2F1b07fBa5Adb39FB8e87Fc32Fc4fC';  // ganache second account address
-  consumerAddress: string = '0xE3F58A16c5a6D0e93F81cB317AF72a26Bd71cfC7';  // ganache third account address
-  distributorAddress: string = '0x164ACB9b31d5d36F830ae07B7Bc0e36ad3BFEf23' // ganache fourth account address
+
+    ownerAddress: string = '0x5d09C0a00bA291F36ddb9d5bC14B9fe4A13D1f93'; // contract owner
+    producerAddress: string = '0x1258F44a41912403Cd021988Cb5Ab2d27E89fcB6'; // ganache second account address
+    consumerAddress: string = '0xC6bFC0b3d22A061a2Ad0d386F58Fc5ae43bc941B'; // ganache third account address
+    distributorAddress: string = '0x5244386624304A10c1F41f4DC35e033630ED91c1' // ganache fourth account address
+
+
   loc = 'Pune';
 
   constructor(private abiService: AbiService) {
@@ -89,22 +92,20 @@ export class AppConfigurationService {
       console.log('Error while trying to add distributor role: ' + error.message)
     });
   }
+
   // to add product
-  public addProduct(productName: string, productDesc: string, producerName: string, loaction: string, price: number) {
+  public addProduct(productName: string, productDesc: string, producerName: string, price: number) {
     const result = this.supplyChainContract.methods.addProducts(productName, productDesc, producerName, this.loc, price).send({
       from: this.producerAddress
     });
 
-    // const result = this.supplyChainContract.methods.addProducts('Pen','Ball Pen','Cello', this.loc, 11).send({
-    //   from: this.producerAddress
+    // result.then((result) => {
+    //     console.log(result);
+    // }).catch((error) => {
+    //   console.log('Error while trying to add new product: ' + error.message)
     // });
 
-    result.then((result) => {
-        console.log(result);
-    }).catch((error) => {
-      console.log('Error while trying to add new product: ' + error.message)
-    });
-
+    return result;
   }
 
   // get product by index
@@ -122,9 +123,10 @@ export class AppConfigurationService {
 
   // to add products.
   public addItemInCart(productId: number) {
-    const result = this.supplyChainContract.methods.addItemInCart(productId).send({
+    const result = this.supplyChainContract.methods.addItemInCart(productId, this.loc).send({
       from: this.consumerAddress
     });
+    
     result.then((result) => {
         console.log(result);
     }).catch((error) => {
@@ -177,13 +179,15 @@ export class AppConfigurationService {
   }
 
    // get all the products
-  public getProuducts() {
+  public getProuducts() : any {
    const result =  this.supplyChainContract.methods.getProuducts().call();
-    result.then((result) => {
-     console.log(result);
-    }).catch((error) => {
-      console.log('Error while trying to get products: ' + error.message)
-    });
+    // result.then((result) => {
+    //  console.log(result);
+    // }).catch((error) => {
+    //   console.log('Error while trying to get products: ' + error.message)
+    // });
+
+    return result;
   }
 
   // view order

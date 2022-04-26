@@ -29,9 +29,14 @@ export class AddProductFormComponent implements OnInit {
     if (this.addProductForm.invalid) {
       return;
     }
-    alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.addProductForm.value, null, 4));
-    this.blockchainConnectionService.addProduct(this.addProductForm.value.productName, this.addProductForm.value.productDesc, this.addProductForm.value.producerName, 'Pune',
-      this.addProductForm.value.price);
+
+  let prodcutname =  this.addProductForm?.value?.productName;
+  let prodcutdesc =  this.addProductForm?.value?.productDesc;
+  let producerName =  this.addProductForm?.value?.producerName;
+  let price =  this.addProductForm?.value?.price;
+
+
+    this.blockchainConnectionService.addProduct(prodcutname, prodcutdesc, producerName, price);
   }
 
   onReset() {

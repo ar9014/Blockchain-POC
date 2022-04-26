@@ -67,6 +67,7 @@ contract SupplyChain is
         uint256 createdDateTime;
         OrderItemState currentState; 
         string stateInString;
+        string createdByName;
     }
 
     struct TempOrderDetail {
@@ -127,16 +128,17 @@ contract SupplyChain is
 
         emit ItemProduced(productIndex);
 
-        addLog(_location, OrderItemState.Produced, "Product Added", productIndex);
+        addLog(_location, OrderItemState.Produced, "Product Added", productIndex, "Producer/Farmer");
     }
 
     // create a log
-    function addLog(string memory _location, OrderItemState _state, string memory _stateInString, uint _productId) public {
+    function addLog(string memory _location, OrderItemState _state, string memory _stateInString, uint _productId, string memory _createdByName) public {
      
         activityLog[logIndexer].activityId = logIndexer + 1;
         activityLog[logIndexer].createdBy = msg.sender;
+        activityLog[logIndexer].createdByName = _createdByName;
         activityLog[logIndexer].location = _location;
-        activityLog[logIndexer].createdDateTime = block.timestamp;
+        activityLog[logIndexer].createdDateTime = uint32(block.timestamp);
         activityLog[logIndexer].currentState = _state;
         activityLog[logIndexer].stateInString = _stateInString;
         activityLog[logIndexer].productId = _productId;
@@ -189,7 +191,7 @@ contract SupplyChain is
         cartMapping[index].itemState = OrderItemState.Ordered;
         cartIndexer.push(index);
 
-        addLog(_location, OrderItemState.Ordered, "Product Ordered", productId);  // product added.
+        addLog(_location, OrderItemState.Ordered, "Product Ordered", productId, "Consumer");  // product added.
 
         emit ItemAddedInCart(index);  // item added event.
     }
@@ -238,7 +240,7 @@ contract SupplyChain is
     function addDistributorToOrderItem(uint _orderItem, address _distributor, string memory _location) public onlyProducer 
     {
         cartMapping[_orderItem].distributor = _distributor;
-        addLog(_location, OrderItemState.Ordered, "Picked up for Delivery", cartMapping[_orderItem].productId);  // distributor added.
+        addLog(_location, OrderItemState.Ordered, "Picked up for Delivery", cartMapping[_orderItem].productId, "Producer/Farmer");  // distributor added.
     }
 
     // view distributor
@@ -254,7 +256,7 @@ contract SupplyChain is
         //     cartMapping[_orderItem].itemState = OrderItemState.Delivered;
         
         emit ItemDelivered(_orderItem);
-        addLog(_location, OrderItemState.Ordered, "Delivered to Customer", cartMapping[_orderItem].productId);  // delivered.
+        addLog(_location, OrderItemState.Ordered, "Delivered to Customer", cartMapping[_orderItem].productId, "Distributor");  // delivered.
 
     }
 

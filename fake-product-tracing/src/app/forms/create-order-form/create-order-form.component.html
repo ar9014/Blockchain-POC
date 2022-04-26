@@ -11,7 +11,7 @@
   </div>
   <ion-content [scrollEvents]="true" style="height: 480px;">
 <ion-row style="height: 2em;"></ion-row>
-  <div *ngFor="let product of products">
+  <div *ngFor="let product of productList">
   <ion-item>
     <ion-label>
       <ion-row>
@@ -19,7 +19,7 @@
       {{product.productName}}
     </ion-col>
     <ion-col>
-      {{product.description}}
+      {{product.productDesc}}
     </ion-col>
     <ion-col>
       <ion-icon style="float: right;" name="add-circle" *ngIf="!product.iconChange" (click)="addProductIntoCart(product.productId)"></ion-icon>

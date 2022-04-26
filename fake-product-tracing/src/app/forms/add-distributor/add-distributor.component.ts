@@ -35,12 +35,7 @@ export class AddDistributorComponent implements OnInit {
     }
 
     this.blockchainConnectionService.addDistributorToOrderItem(Number(this.addDistributorForm.get('orderNumber').value), this.addDistributorForm.get('account').value);
-    alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.addDistributorForm.value, null, 4));
   }
-
-  // userChange(userAddress: string) {
-  //   this.selectedUserAddress = userAddress;
-  // }
 
   onReset() {
     this.submitted = false;
