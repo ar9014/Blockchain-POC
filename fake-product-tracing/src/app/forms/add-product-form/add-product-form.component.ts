@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter  } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import Web3 from 'Web3';
 import { AppConfigurationService } from 'src/app/services/app.configuration.service';
 
 @Component({
