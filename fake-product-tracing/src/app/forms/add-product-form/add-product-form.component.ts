@@ -14,7 +14,8 @@ export class AddProductFormComponent implements OnInit {
   addProductForm: FormGroup;
   submitted = false;
 
-  constructor(private fb: FormBuilder, private router: Router, private blockchainConnectionService: AppConfigurationService) {
+  constructor(private fb: FormBuilder, private router: Router,
+    private blockchainConnectionService: AppConfigurationService) {
     this.addProductForm = this.fb.group({
       productName: [null, [Validators.required, Validators.minLength(5)]],
       productDesc: [null, [Validators.required]],
@@ -36,7 +37,9 @@ export class AddProductFormComponent implements OnInit {
   let price =  this.addProductForm?.value?.price;
 
 
-    this.blockchainConnectionService.addProduct(prodcutname, prodcutdesc, producerName, price);
+    let result = this.blockchainConnectionService.addProduct(prodcutname, prodcutdesc, producerName, price);
+    this.toastController.
+
   }
 
   onReset() {

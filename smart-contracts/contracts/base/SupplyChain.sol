@@ -124,11 +124,12 @@ contract SupplyChain is
         productMapping[productIndex] = Product (productIndex, product_Name, product_Desc, producer_Name, price,
         1, msg.sender, block.timestamp, false);
  
-        productIndex = productIndex + 1;
-
         emit ItemProduced(productIndex);
 
         addLog(_location, OrderItemState.Produced, "Product Added", productIndex, "Producer/Farmer");
+
+        productIndex = productIndex + 1;
+
     }
 
     // create a log

@@ -85,6 +85,8 @@ export class CreateOrderFormComponent implements OnInit {
   createOrder(){
     // create order service call
     console.log("create order call.")
+    this.blockchainConnectionService.createOrder();
+
   }
 
   goBack(){

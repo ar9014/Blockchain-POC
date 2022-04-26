@@ -10,7 +10,7 @@ interface log {
   productId: number,
   createdDateTime: any,
   location: string,
-  createdBy: ''
+  createdByName: string
 }
 
 @Component({

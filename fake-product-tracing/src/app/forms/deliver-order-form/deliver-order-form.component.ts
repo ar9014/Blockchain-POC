@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter  } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { parse } from 'path';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { AppConfigurationService } from 'src/app/services/app.configuration.service';
 import { Step } from '../step.model';
@@ -41,8 +42,7 @@ export class DeliverOrderFormComponent implements OnInit {
     // this.placesSub = obsr.subscribe(places => {
     //   this.steps = places;
     // });
-    this.blockchainConnectionService.orderDelivered(this.viewDeliverOrderFormDisplay.value);
-    alert('Order ' + this.viewDeliverOrderFormDisplay.value + ' is deliverd!!' );
+    this.blockchainConnectionService.orderDelivered(this.viewDeliverOrderFormDisplay?.value?.orderNumber);
   }
 
   onReset() {

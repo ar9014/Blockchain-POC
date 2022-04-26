@@ -36,8 +36,8 @@
         </ion-avatar>
         <ion-label>
           <h2>{{step.stateInString}}</h2>
-          <h3>{{step.createdBy}}</h3>
-          <p> {{step.createdDateTime | date:'medium'}} <span>{{step.location}}</span></p>
+          <h3><span>By: </span>{{step.createdByName}}</h3>
+          <p> {{step.createdDateTime*1000 | date:'medium'}} <span>{{step.location}}</span></p>
         </ion-label>
       </ion-item>
     </ion-list>
