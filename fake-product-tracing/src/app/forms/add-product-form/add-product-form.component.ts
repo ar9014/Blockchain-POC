@@ -38,6 +38,7 @@ export class AddProductFormComponent implements OnInit {
 
 
   this.blockchainConnectionService.addProduct(prodcutname, prodcutdesc, producerName, price);
+  
   }
 
   onReset() {

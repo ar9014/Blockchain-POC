@@ -13,7 +13,7 @@ export class ToastrService {
 
   public async showMessage(message:string, messageType: any){
     let messageClassName = "";
-    
+
     if(messageType === MessageType.success){
       messageClassName = "toast-success-class";
     }
@@ -22,7 +22,7 @@ export class ToastrService {
       messageClassName = "toast-error-class";
     }
 
-    if(messageType === MessageType.warninig){
+    if(messageType === MessageType.warning){
       messageClassName = "toast-warning-class";
     }
 
