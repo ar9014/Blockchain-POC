@@ -2,6 +2,8 @@ import { Injectable } from "@angular/core";
 import { error } from "protractor";
 import Web3 from 'web3/dist/web3.min.js';
 import { AbiService } from "../abi.service";
+import { ToastrService } from 'src/app/services/toastr.service';
+import { MessageType } from "../modal/messagetype";
 declare const window: any;
 
 @Injectable({
@@ -20,7 +22,7 @@ export class AppConfigurationService {
 
   loc = 'Pune';
 
-  constructor(private abiService: AbiService) {
+  constructor(private abiService: AbiService, private toastrService: ToastrService) {
   }
 
   private getAccounts = async () => {
@@ -63,7 +65,10 @@ export class AppConfigurationService {
         from: this.ownerAddress
       })
 
-      result.then((instance) => { console.log(instance) }).catch((error) => {
+      result.then((instance) => { console.log(instance);
+        this.toastrService.showMessage("Farmer added successfully.", MessageType.success);
+       }).catch((error) => {
+        this.toastrService.showMessage("Error while trying to add farmer.", MessageType.error);
         console.log('Error while trying to add farmer: ' + error.message)
       });
   }
@@ -74,7 +79,10 @@ export class AppConfigurationService {
       from: this.ownerAddress
     })
 
-    result.then((instance) => { console.log(instance) }).catch((error) => {
+    result.then((instance) => { console.log(instance);
+      this.toastrService.showMessage("Consumer added successfully.", MessageType.success);
+     }).catch((error) => {
+      this.toastrService.showMessage("Error while trying to add farmer.", MessageType.error);
       console.log('Error while trying to add consumer: ' + error.message)
     });
   }
@@ -86,8 +94,10 @@ export class AppConfigurationService {
     })
 
     result.then((instance) =>{
-      console.log(instance)
+      console.log(instance);
+      this.toastrService.showMessage("Distributor added successfully.", MessageType.success);
     }).catch((error) => {
+      this.toastrService.showMessage("Error while trying to add farmer.", MessageType.error);
       console.log('Error while trying to add distributor role: ' + error.message)
     });
   }
@@ -109,6 +119,7 @@ export class AppConfigurationService {
     result.then((result) => {
       console.log(result);
     }).catch((error) => {
+      this.toastrService.showMessage("Error while trying to add farmer.", MessageType.error);
       console.log('Error while trying to view products: ' + error.message)
     });
   }
@@ -121,7 +132,9 @@ export class AppConfigurationService {
 
     result.then((result) => {
         console.log(result);
+      this.toastrService.showMessage("Product added into cart.", MessageType.success);
     }).catch((error) => {
+      this.toastrService.showMessage("Error while trying to add farmer.", MessageType.error);
       console.log('Error while trying to add Items to cart: ' + error.message)
     });
   }
@@ -131,8 +144,10 @@ export class AppConfigurationService {
    const result =  this.supplyChainContract.methods.viewCartItems(index).call(
     { from: this.consumerAddress }
    )
-   result.then((result) => {  console.log(result); }).catch((error) => {
-    console.log('Error while trying to view cart items: ' + error.message)
+   result.then((result) => {  console.log(result);
+   }).catch((error) => {
+    console.log('Error while trying to view cart items: ' + error.message);
+    this.toastrService.showMessage("Error while trying to add farmer.", MessageType.error);
   });
   }
 
@@ -145,8 +160,10 @@ export class AppConfigurationService {
 
     result.then((result) => {
         console.log(result);
+        this.toastrService.showMessage("Create order successfully.", MessageType.success);
     }).catch((error) => {
-      console.log('Error while trying to create order: ' + error.message)
+      console.log('Error while trying to create order: ' + error.message);
+      this.toastrService.showMessage("Error while trying to add farmer.", MessageType.error);
     });
   }
 
@@ -160,7 +177,8 @@ export class AppConfigurationService {
     result.then((result) => {
         console.log(result);
     }).catch((error) => {
-      console.log('Error while trying to add distributor to Order: ' + error.message)
+      console.log('Error while trying to add distributor to Order: ' + error.message);
+      this.toastrService.showMessage("Error while trying to add farmer.", MessageType.error);
     });;
   }
 
@@ -201,7 +219,8 @@ export class AppConfigurationService {
     result.then((result) => {
         console.log(result);
     }).catch((error) => {
-      console.log('Error while trying to do customer confirmation: ' + error.message)
+      console.log('Error while trying to do customer confirmation: ' + error.message);
+      this.toastrService.showMessage("Error while trying to add farmer.", MessageType.error);
     });
   }
 
@@ -213,8 +232,10 @@ export class AppConfigurationService {
 
     result.then((result) => {
         console.log(result);
+        this.toastrService.showMessage("Order delivered success.", MessageType.success);
     }).catch((error) => {
-      console.log('Error while trying to make order delivery confirmation: ' + error.message)
+      console.log('Error while trying to make order delivery confirmation: ' + error.message);
+      this.toastrService.showMessage("Error while trying to add farmer.", MessageType.error);
     });
   }
 }

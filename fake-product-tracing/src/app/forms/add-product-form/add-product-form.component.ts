@@ -37,9 +37,7 @@ export class AddProductFormComponent implements OnInit {
   let price =  this.addProductForm?.value?.price;
 
 
-    let result = this.blockchainConnectionService.addProduct(prodcutname, prodcutdesc, producerName, price);
-    this.toastController.
-
+  this.blockchainConnectionService.addProduct(prodcutname, prodcutdesc, producerName, price);
   }
 
   onReset() {

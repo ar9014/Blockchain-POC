@@ -39,3 +39,24 @@ ion-searchbar {
 ion-icon {
     font-size: 1.8em; //Preferred size here
 }
+
+.toast-custom-class {
+    --color:#ffffff;
+    --border-color:#ffffff;
+    --border-radius:5px;
+    --border-style:solid;
+    --border-width:3px;
+    --button-color:#ffffff;
+}
+
+.toast-success-class {
+    --background:#32db64;
+}
+
+.toast-error-class {
+    --background:#db3232;
+}
+
+.toast-warning-class {
+    --background:#dbcd32;
+}
