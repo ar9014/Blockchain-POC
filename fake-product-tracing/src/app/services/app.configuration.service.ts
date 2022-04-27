@@ -14,11 +14,10 @@ export class AppConfigurationService {
   window: any;
   supplyChainContract: any;
 
-    ownerAddress: string = '0xd93C64F34cd0eB3285dDB20C1EeA192FbF2E29Ff'; // contract owner
-    producerAddress: string = '0x91f0a931763cc551296882242DbeBfc8c043016b'; // ganache second account address
-    consumerAddress: string = '0xc7dd0272860B44A486BB2Ae1a2992B658861c9A9'; // ganache third account address
-    distributorAddress: string = '0xb9Cfc507710cB0B9EfC17D257fEbc2D0484aAb55' // ganache fourth account address
-
+    ownerAddress: string = '0xE42e16f19D956307E134E95690C6bd91d37ad795'; // contract owner
+    producerAddress: string = '0x46CC138c5E270fE45efdE90bE94E9d71FE8Ea639'; // ganache second account address
+    consumerAddress: string = '0x81aA227ecC76F7B70B5c0782a691BDfFCAB6ec79'; // ganache third account address
+    distributorAddress: string = '0xf022d66A8F8Edf8d7FA6cDf2C9B971839D9F40Bd' // ganache fourth account address
 
   loc = 'Pune';
 
@@ -103,11 +102,18 @@ export class AppConfigurationService {
   }
 
   // to add product
-  public addProduct(productName: string, productDesc: string, producerName: string, price: number): any {
+  public addProduct(productName: string, productDesc: string, producerName: string, price: number) {
     const result = this.supplyChainContract.methods.addProducts(productName, productDesc, producerName, this.loc, price).send({
       from: this.producerAddress
     });
-    return result;
+
+    result.then((instance) =>{
+      console.log(instance);
+      this.toastrService.showMessage("Product Added.", MessageType.success);
+    }).catch((error) => {
+      this.toastrService.showMessage("Failed to add.", MessageType.error);
+    });
+
   }
 
   // get product by index
@@ -132,9 +138,9 @@ export class AppConfigurationService {
 
     result.then((result) => {
         console.log(result);
-      this.toastrService.showMessage("Product added into cart.", MessageType.success);
+      // this.toastrService.showMessage("Product added into cart.", MessageType.success);
     }).catch((error) => {
-      this.toastrService.showMessage("Error while trying to add farmer.", MessageType.error);
+      // this.toastrService.showMessage("Error while trying to add farmer.", MessageType.error);
       console.log('Error while trying to add Items to cart: ' + error.message)
     });
   }
@@ -158,13 +164,13 @@ export class AppConfigurationService {
       from: this.consumerAddress
     });
 
-    result.then((result) => {
-        console.log(result);
-        this.toastrService.showMessage("Create order successfully.", MessageType.success);
+    result.then((instance) =>{
+      console.log(instance);
+      this.toastrService.showMessage("Order created", MessageType.success);
     }).catch((error) => {
-      console.log('Error while trying to create order: ' + error.message);
-      this.toastrService.showMessage("Error while trying to add farmer.", MessageType.error);
+      this.toastrService.showMessage("Failed to create an order.", MessageType.error);
     });
+
   }
 
   // adds distributor to order item
@@ -176,9 +182,11 @@ export class AppConfigurationService {
 
     result.then((result) => {
         console.log(result);
+        this.toastrService.showMessage("Distributor added", MessageType.success);
+
     }).catch((error) => {
       console.log('Error while trying to add distributor to Order: ' + error.message);
-      this.toastrService.showMessage("Error while trying to add farmer.", MessageType.error);
+      this.toastrService.showMessage("Failed to add distributor", MessageType.error);
     });;
   }
 
@@ -191,12 +199,6 @@ export class AppConfigurationService {
    // get all the products
   public getProuducts() : any {
    const result =  this.supplyChainContract.methods.getProuducts().call();
-    // result.then((result) => {
-    //  console.log(result);
-    // }).catch((error) => {
-    //   console.log('Error while trying to get products: ' + error.message)
-    // });
-
     return result;
   }
 
@@ -232,10 +234,10 @@ export class AppConfigurationService {
 
     result.then((result) => {
         console.log(result);
-        this.toastrService.showMessage("Order delivered success.", MessageType.success);
+        this.toastrService.showMessage("Item delivered", MessageType.success);
     }).catch((error) => {
       console.log('Error while trying to make order delivery confirmation: ' + error.message);
-      this.toastrService.showMessage("Error while trying to add farmer.", MessageType.error);
+      this.toastrService.showMessage("Failed", MessageType.error);
     });
   }
 }

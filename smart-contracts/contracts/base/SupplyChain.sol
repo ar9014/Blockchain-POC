@@ -241,7 +241,7 @@ contract SupplyChain is
     function addDistributorToOrderItem(uint _orderItem, address _distributor, string memory _location) public onlyProducer 
     {
         cartMapping[_orderItem].distributor = _distributor;
-        addLog(_location, OrderItemState.Ordered, "Picked up for Delivery", cartMapping[_orderItem].productId, "Producer/Farmer");  // distributor added.
+        addLog(_location, OrderItemState.Ordered, "Assigned Distributor for Delivery", cartMapping[_orderItem].productId, "Producer/Farmer");  // distributor added.
     }
 
     // view distributor
